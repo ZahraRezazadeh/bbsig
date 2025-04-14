@@ -1,0 +1,1844 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Brain-Body Analysis Special Interest Group (BBSIG) - reproducible, open-access pipelines for peripheral physiology analysis">
+      
+      
+      
+        <link rel="canonical" href="https://martager.github.io/bbsig/hrv-analysis/">
+      
+      
+        <link rel="prev" href="../ppg-preprocessing/">
+      
+      
+        <link rel="next" href="../contributors/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.11">
+    
+    
+      
+        <title>HRV analysis - Brain-Body Analysis Special Interest Group (BBSIG)</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.4af4bdda.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../css/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#heart-rate-variability-hrv-analysis-hrv_analysisipynb" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Brain-Body Analysis Special Interest Group (BBSIG)" class="md-header__button md-logo" aria-label="Brain-Body Analysis Special Interest Group (BBSIG)" data-md-component="logo">
+      
+  <img src="../bbsig_logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Brain-Body Analysis Special Interest Group (BBSIG)
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              HRV analysis
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/martager/bbsig" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    martager/bbsig
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href=".." class="md-tabs__link">
+          
+  
+  
+  Home
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../overview/" class="md-tabs__link">
+          
+  
+  
+  Getting started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../ecg-preprocessing/" class="md-tabs__link">
+          
+  
+  
+  Pipelines
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../contributors/" class="md-tabs__link">
+          
+  
+  
+  About us
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Brain-Body Analysis Special Interest Group (BBSIG)" class="md-nav__button md-logo" aria-label="Brain-Body Analysis Special Interest Group (BBSIG)" data-md-component="logo">
+      
+  <img src="../bbsig_logo.png" alt="logo">
+
+    </a>
+    Brain-Body Analysis Special Interest Group (BBSIG)
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/martager/bbsig" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    martager/bbsig
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            Home
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Getting started
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Getting started
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quick overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../setup-bbsig-env/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Create the virtual environment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bids-structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Organize your BIDS folders
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faqs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    FAQs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Pipelines
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Pipelines
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ecg-preprocessing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ECG preprocessing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ppg-preprocessing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    PPG preprocessing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    HRV analysis
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    HRV analysis
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#compatible-data-sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Compatible data sources
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notebook-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Notebook structure
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#settings-optional-pipeline-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Settings: optional pipeline steps
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Additional settings
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Additional settings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#settings-1-data-import-and-conversion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Settings: 1. Data import and conversion
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#settings-2-optional-data-cropping" class="md-nav__link">
+    <span class="md-ellipsis">
+      Settings: 2. (Optional) Data cropping
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#settings-4-frequency-domain-hrv-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Settings: 4. Frequency-domain HRV settings
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-data-import-and-conversion" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Data import and conversion
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-optional-data-cropping" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. (Optional) Data cropping
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-optional-compute-time-domain-hrv-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. (Optional) Compute time-domain HRV metrics
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-optional-compute-frequency-domain-hrv-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. (Optional) Compute frequency-domain HRV metrics
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-optional-compute-non-linear-hrv-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. (Optional) Compute non-linear HRV metrics
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-data-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Data output
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-main-analysis-loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. Main analysis loop
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#good-job-your-hrv-analysis-is-done" class="md-nav__link">
+    <span class="md-ellipsis">
+      Good job, your HRV analysis is done! 🥳
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    About us
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            About us
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contributors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Contributors
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cite-us/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cite us
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../license/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    License
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../acknowledgments/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Acknowledgments
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#compatible-data-sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Compatible data sources
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notebook-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Notebook structure
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#settings-optional-pipeline-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Settings: optional pipeline steps
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Additional settings
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Additional settings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#settings-1-data-import-and-conversion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Settings: 1. Data import and conversion
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#settings-2-optional-data-cropping" class="md-nav__link">
+    <span class="md-ellipsis">
+      Settings: 2. (Optional) Data cropping
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#settings-4-frequency-domain-hrv-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Settings: 4. Frequency-domain HRV settings
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-data-import-and-conversion" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Data import and conversion
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-optional-data-cropping" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. (Optional) Data cropping
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-optional-compute-time-domain-hrv-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. (Optional) Compute time-domain HRV metrics
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-optional-compute-frequency-domain-hrv-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. (Optional) Compute frequency-domain HRV metrics
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-optional-compute-non-linear-hrv-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. (Optional) Compute non-linear HRV metrics
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-data-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Data output
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-main-analysis-loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. Main analysis loop
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#good-job-your-hrv-analysis-is-done" class="md-nav__link">
+    <span class="md-ellipsis">
+      Good job, your HRV analysis is done! 🥳
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="heart-rate-variability-hrv-analysis-hrv_analysisipynb"><strong>Heart Rate Variability (HRV) analysis: <code>hrv_analysis.ipynb</code></strong><a class="headerlink" href="#heart-rate-variability-hrv-analysis-hrv_analysisipynb" title="Permanent link">#</a></h1>
+<p>This step-by-step tutorial will walk you through how to use the <strong>Jupyter notebook for conducting Heart Rate Variability (HRV) analysis</strong> on your preprocessed ECG or PPG data, developed as part of the Brain-Body Analysis Special Interest Group (BBSIG). You can find this pipeline under the name: <code>hrv_analysis.ipynb</code>.</p>
+<details class="note">
+<summary>Never used a Jupyter notebook before?</summary>
+<p>If you have never used a Jupyter notebook before, visit our setup instructions in the <a href="https://martager.github.io/bbsig/faqs/#jupyter-notebooks">FAQs</a>. If you are planning to perform manual PPG peak correction, <strong>we recommend following the instructions to run this pipeline locally</strong> in your IDE of choice (e.g., VS Code, PyCharm). </p>
+</details>
+<h2 id="compatible-data-sources"><strong>Compatible data sources</strong><a class="headerlink" href="#compatible-data-sources" title="Permanent link">#</a></h2>
+<p>This HRV analysis pipeline is designed for <strong>optimal interaction with RR interval time series derived from preprocessed ECG/PPG data using our BBSIG pipelines</strong>. For minimal setup, we recommend running the <code>ecg_preproc.ipynb</code> or <code>ppg_preproc.ipynb</code> notebook beforehand, which will generate the preprocessed ECG/PPG output files in BIDS-compliant format. However, if you have acquired your own RR interval data, the HRV analysis pipeline will work with custom TSV/CSV/TXT files, as long as they meet a few formatting requirements.  </p>
+<p>Select the tab below based on your data source for RR intervals: </p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">BBSIG Preprocessed Data</label><label for="__tabbed_1_2">Custom RR Intervals File</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>If you have correctly run the <code>ecg_preproc.ipynb</code> or <code>ppg_preproc.ipynb</code> pipeline, the preprocessed ECG/PPG output files for each participant will be stored under <code>derivatives/ecg-preproc/sub-&lt;label&gt;/</code> or <code>derivatives/ppg-preproc/sub-&lt;label&gt;/</code>. Each participant should have a corresponding <strong><code>_ecg-preproc.json</code> or <code>_ppg-preproc.json</code> file</strong> containing the RR interval time series.  </p>
+<p>To ensure proper data loading, the following parameters must be specified in the <a href="https://martager.github.io/bbsig/hrv-analysis/#additional-settings">Additional Settings</a> section at the beginning of the notebook:   </p>
+<ul>
+<li><code>bbsig_preproc = True</code> in order to import the JSON files generated during the BBSIG-based preprocessing.</li>
+<li><code>rri_unit = 's'</code> (as the BBSIG pipeline natively saves RR intervals in seconds). </li>
+<li><code>physio_type = 'ecg'</code>/<code>'ppg'</code>, depending on the peripheral physiological modality of your raw data.</li>
+<li><code>rr_type = 'manualcorr'</code>/<code>'autocorr'</code>/<code>'uncorr'</code>, determines which type of RR interval data to extract from the R-peak correction steps. </li>
+</ul>
+<p>Example setup to import ECG data preprocessed using the BBSIG pipeline: 
+<div class="language-py highlight"><pre><span></span><code><span id="__span-0-1"><span class="c1">### Specify whether the data is BBSIG preprocessed output or custom file ###</span>
+</span><span id="__span-0-2">
+</span><span id="__span-0-3"><span class="c1"># Define whether the preprocessed ECG/PPG data were generated using the BBSIG pipeline</span>
+</span><span id="__span-0-4"><span class="n">bbsig_preproc</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># set to True if data from the &#39;ecg-preproc&#39; or &#39;ppg-preproc&#39; folder is used</span>
+</span><span id="__span-0-5"><span class="n">rri_unit</span> <span class="o">=</span> <span class="s1">&#39;s&#39;</span>      <span class="c1"># RR interval unit; &#39;s&#39; for seconds, &#39;ms&#39; for milliseconds</span>
+</span><span id="__span-0-6">
+</span><span id="__span-0-7"><span class="c1"># Parameters for `bbsig_preproc = True`: BBSIG-compatible preprocessed file</span>
+</span><span id="__span-0-8"><span class="k">if</span> <span class="n">bbsig_preproc</span><span class="p">:</span> 
+</span><span id="__span-0-9">    <span class="n">physio_type</span> <span class="o">=</span> <span class="s1">&#39;ecg&#39;</span>  <span class="c1"># specify the type of physiological data (&#39;ecg&#39;, &#39;ppg&#39;) if bbsig_preproc was used</span>
+</span><span id="__span-0-10">    <span class="n">rr_type</span> <span class="o">=</span> <span class="s1">&#39;autocorr&#39;</span> <span class="c1"># specify the type of RR interval data to extract (either &#39;manualcorr&#39;, &#39;autocorr&#39;, or &#39;uncorr&#39;)</span>
+</span></code></pre></div></p>
+</div>
+<div class="tabbed-block">
+<p>If you have your own RR interval data which was not derived from a BBSIG preprocessing pipeline, you can <strong>still use the current pipeline with a custom file</strong>. Just follow these formatting and data storage requirements: </p>
+<ul>
+<li>Store the <strong>RR interval time series in a single column</strong>, one value per row. The column <strong>may or may not have a header row</strong>. </li>
+<li>Save such formatted RR intervals as a separate <strong>TSV/CSV/TXT file for each participant</strong> using the following BIDS-compliant file naming standards: <code>sub-&lt;label&gt;[_ses-&lt;label&gt;]_task-&lt;label&gt;_rr.{tsv/csv/txt}</code>. It is important to use the <strong>suffix <code>_rr.{tsv/csv/txt}</code></strong> with the correct file extension. </li>
+<li>Organize these custom files under the participant-specific <strong><code>derivatives\sub-&lt;label&gt;\[ses-&lt;label&gt;\]&lt;datatype&gt;\</code> directories</strong>. </li>
+</ul>
+<p>Here is an example of a directory storing a custom <code>_rr.tsv</code> file with RR intervals:
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1">└─ YourBIDSFolder/
+</span><span id="__span-1-2">    ├─ derivatives/ 
+</span><span id="__span-1-3">    │   └─ sub-101/
+</span><span id="__span-1-4">    │       └─ ses-01/
+</span><span id="__span-1-5">    │           └─ beh/
+</span><span id="__span-1-6">    │               └─ `sub-101_ses-01_task-BBSIG_rr.tsv`   # custom TSV file with RR interval time series
+</span><span id="__span-1-7">    └─ ... 
+</span></code></pre></div></p>
+<p>To ensure proper data loading, the following parameters must be specified in the <a href="https://martager.github.io/bbsig/hrv-analysis/#additional-settings">Additional Settings</a> section at the beginning of the notebook:</p>
+<ul>
+<li><code>bbsig_preproc = False</code> in order to import the custom file with the RR interval time series. </li>
+<li><code>rri_unit = 's'</code>/<code>'ms'</code>, depending on whether your original RR interval values are expressed in seconds or milliseconds. </li>
+<li><code>file_type = 'tsv'</code>/<code>'csv'</code>/<code>'txt'</code> to match the file extension.</li>
+<li><code>file_header</code> can be set to <code>None</code> if no header is present; otherwise, defaults to <code>0</code>, i.e., the first row. </li>
+<li><code>column_rr</code> can be set to the column index containing the RR interval time series (if you have only one column, this will correspond to <code>column_rr=0</code>, i.e., the first column). </li>
+</ul>
+<p>Example of a custom TSV file with one column storing RR intervals (in seconds), without a header:
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1">0.948
+</span><span id="__span-2-2">0.925
+</span><span id="__span-2-3">0.902
+</span><span id="__span-2-4">0.876
+</span><span id="__span-2-5">0.847
+</span></code></pre></div></p>
+<p>Example setup to import this custom TSV file, without a header and with only one colum: 
+<div class="language-py highlight"><pre><span></span><code><span id="__span-3-1"><span class="c1">### Specify whether the data is BBSIG preprocessed output or custom file ###</span>
+</span><span id="__span-3-2">
+</span><span id="__span-3-3"><span class="c1"># Define whether the preprocessed ECG/PPG data were generated using the BBSIG pipeline</span>
+</span><span id="__span-3-4"><span class="n">bbsig_preproc</span> <span class="o">=</span> <span class="kc">False</span>   <span class="c1"># set to True if data from the &#39;ecg-preproc&#39; or &#39;ppg-preproc&#39; folder is used</span>
+</span><span id="__span-3-5"><span class="n">rri_unit</span> <span class="o">=</span> <span class="s1">&#39;s&#39;</span>          <span class="c1"># RR interval unit; &#39;s&#39; for seconds, &#39;ms&#39; for milliseconds</span>
+</span><span id="__span-3-6">
+</span><span id="__span-3-7"><span class="p">[</span><span class="o">...</span><span class="p">]</span>
+</span><span id="__span-3-8">
+</span><span id="__span-3-9"><span class="c1"># Parameters for `bbsig_preproc = False`: custom file </span>
+</span><span id="__span-3-10"><span class="k">if</span> <span class="ow">not</span> <span class="n">bbsig_preproc</span><span class="p">:</span> 
+</span><span id="__span-3-11">    <span class="n">file_type</span> <span class="o">=</span> <span class="s1">&#39;tsv&#39;</span>   <span class="c1"># specify the file type (&#39;tsv&#39;, &#39;csv&#39;, &#39;txt&#39;) for loading data</span>
+</span><span id="__span-3-12">    <span class="n">file_header</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># set to None if no header, otherwise 0 if header is first row (0-based)</span>
+</span><span id="__span-3-13">    <span class="n">column_rr</span> <span class="o">=</span> <span class="mi">0</span>       <span class="c1"># specify the column index (0-based) for RR intervals</span>
+</span></code></pre></div></p>
+</div>
+</div>
+</div>
+<h2 id="notebook-structure"><strong>Notebook structure</strong><a class="headerlink" href="#notebook-structure" title="Permanent link">#</a></h2>
+<p>This notebook contains the following sections which define functions for use in the main analysis loop of the HRV preprocessing pipeline: </p>
+<ol>
+<li>
+<p><a href="https://martager.github.io/bbsig/hrv-analysis/#1-data-import-and-conversion"><strong>Data import and conversion</strong></a>: import and format the RR interval time series either from the BBSIG-preprocessed JSON files (<code>_ecg-preproc.json</code> or <code>ppg-preproc.json</code>) or from custom TSV/CSV/TXT files (<code>_rr.{tsv/csv/txt}</code>). Convert them to milliseconds (if needed) and compute the corresponding R-peak timestamps, stored in the <code>rrs_dict</code> dictionary for later processing stages.</p>
+</li>
+<li>
+<p><a href="https://martager.github.io/bbsig/hrv-analysis/#2-optional-data-cropping"><strong>(Optional) Data cropping</strong></a>: crop the RR interval data to a specific time window using the custom function <code>hrv_window_crop()</code>. This specifies a temporal window (e.g., a 5-min block) for analysis based on a start time and either an end time or a duration (all in seconds). The cropped RR intervals and R-peak timestamps are then stored in a new dictionary: <code>cropped_rrs_dict</code>.</p>
+</li>
+<li>
+<p><a href="https://martager.github.io/bbsig/hrv-analysis/#3-optional-compute-time-domain-hrv-metrics"><strong>(Optional) Compute time-domain HRV metrics</strong></a>: compute time-domain HRV metrics using the custom function <code>hrv_time_domain()</code> (based on NeuroKit2's <code>hrv_time()</code>) in order to extract various data (such as mean and median RR, mean and median HR, SDNN, RMSSD, and pNN50) and store them in a dictionary. Will also display a summary plot of time-domain HRV metrics if <code>show_plots=True</code>.</p>
+</li>
+<li>
+<p><a href="https://martager.github.io/bbsig/hrv-analysis/#4-optional-compute-frequency-domain-hrv-metrics"><strong>(Optional) Compute frequency-domain HRV metrics</strong></a>: compute frequency-domain HRV metrics using the custom function <code>hrv_frequency_domain()</code> (based on NeuroKit2's <code>hrv_frequency()</code>) in order to extract spectral features (like VLF, LF, HF, LF/HF, LFn, HFn, and LnHF) and store them in a dictionary. Will also display a summary plot of frequency-domain HRV metrics if <code>show_plots=True</code>.</p>
+</li>
+<li>
+<p><a href="https://martager.github.io/bbsig/hrv-analysis/#5-optional-compute-non-linear-hrv-metrics"><strong>(Optional) Compute non-linear HRV metrics</strong></a>: compute non-linear HRV metrics using the custom function <code>hrv_nonlinear()</code> (based on NeuroKit2's <code>hrv_nonlinear()</code>) in order to extract various features (like Poincaré plot SD1, SD2, SD1/SD2, ApEn and SampEn) and store them in a dictionary. Will also display a summary plot of non-linear HRV metrics if <code>show_plots=True</code>.</p>
+</li>
+<li>
+<p><a href="https://martager.github.io/bbsig/hrv-analysis/#6-data-output"><strong>Data output</strong></a>: save all participants' computed HRV metrics (time-domain, frequency-domain, or non-linear, if present) to a summary TSV file under <code>derivatives/hrv-analysis/</code> using the custom function <code>save_hrv_data()</code>. The summary TSV files for each HRV metric can be distinguished using the suffix <code>_hrv_{time/freq/nonlinear}.tsv</code>.</p>
+</li>
+<li>
+<p><a href="https://martager.github.io/bbsig/hrv-analysis/#7-main-analysis-loop"><strong>Main Analysis Loop</strong></a>: execute the desired analysis steps from the optional sections above, looping over all participants included in the <code>participant_ids</code> list at once.</p>
+</li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Sections 1 to 6 only define the optional functions which will be called in the <a href="https://martager.github.io/bbsig/hrv-analysis/#7-main-analysis-loop"><strong>Main analysis loop</strong></a>. For any of these optional steps to be applied, the corresponding variable must be set to <code>True</code> in the settings below.</p>
+</div>
+<details>
+<summary>Want to know more about the HRV metrics computed by NeuroKit2?</summary>
+<p>The NeuroKit2 creators have published a open-access paper <a href="https://www.mdpi.com/1424-8220/21/12/3998">(Pham et al., 2021)</a> detailing the most commonly used HRV indices (time-domain, frequency-domain, non-linear) and how to use them in different research areas. The paper also includes a tutorial on how to compute these HRV metrics using NeuroKit2. </p>
+</details>
+<h2 id="settings-optional-pipeline-steps"><strong>Settings: optional pipeline steps</strong><a class="headerlink" href="#settings-optional-pipeline-steps" title="Permanent link">#</a></h2>
+<p>This section defines a series of variables that can be set to <code>True</code> to include the corresponding optional pipeline steps:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;"><div style="width:150px">Variable Name</div></th>
+<th style="text-align: left;">Function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong><code>compute_hrv_time</code></strong> (bool)</td>
+<td style="text-align: left;"><strong>Time-domain HRV computation</strong> (Sect. 3): computes time-domain HRV metrics, including the Standard Deviation of NN intervals (<code>SDNN</code>), Root Mean Square of Successive Differences (<code>RMSSD</code>) and Proportion of NN intervals &gt; 50ms difference (<code>pNN50</code>), using NeuroKit2's <code>hrv_time()</code> function.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>compute_hrv_freq</code></strong> (bool)</td>
+<td style="text-align: left;"><strong>Frequency-domain HRV computation</strong> (Sect. 4): computes frequency-domain HRV metrics, such as Low Frequency (<code>LF</code>) and High Frequency (<code>HF</code>) power, Low-to-High Frequency Ratio (<code>LF/HF</code>), using NeuroKit2's <code>hrv_frequency()</code> function with default method 'Welch' and interpolation rate set to <code>interpolation_freq = 4</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>compute_hrv_nl</code></strong> (bool)</td>
+<td style="text-align: left;"><strong>Non-linear HRV computation</strong> (Sect. 5): computes non-linear HRV metrics, such as Poincaré plot SD1, SD2, SD1/SD2, ApEn and SampEn, using NeuroKit2's <code>hrv_nonlinear()</code> function.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>show_plots</code></strong> (bool)</td>
+<td style="text-align: left;"><strong>NeuroKit2 HRV plotting</strong>: displays NeuroKit2's built-in plots for each of the above HRV metrics.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>At least one of the two options <code>compute_hrv_time</code> or <code>compute_hrv_freq</code> must be set to <code>True</code>!</p>
+</div>
+<h2 id="additional-settings"><strong>Additional settings</strong><a class="headerlink" href="#additional-settings" title="Permanent link">#</a></h2>
+<p>This section defines a series of settings specific to some pipeline steps, including:</p>
+<h3 id="settings-1-data-import-and-conversion">Settings: 1. Data import and conversion<a class="headerlink" href="#settings-1-data-import-and-conversion" title="Permanent link">#</a></h3>
+<p><strong>Define BIDS entities for data path info:</strong></p>
+<p>Specify the participant ID(s) in the <code>participant_ids</code> list. The user must specify mandatory (i.e., task <code>&lt;label&gt;</code> in format <code>task-&lt;label&gt;</code>, datatype) and optional (i.e., session <code>&lt;label&gt;</code> in format <code>ses-&lt;label&gt;</code>) BIDS entities, which will be used to create a base filename according to BIDS conventions (e.g., <code>sub-&lt;ID&gt;{_ses-&lt;label&gt;}_task-&lt;label&gt;</code>) and a base BIDS directory including subject, session (optional) and datatype (e.g., <code>'sub-&lt;ID&gt;/{ses-&lt;label&gt;}/&lt;datatype&gt;/'</code>). </p>
+<p><strong>Specify whether using BBSIG or custom preprocessed data:</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">BBSIG Preprocessed Data</label><label for="__tabbed_2_2">Custom RR Intervals File</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>If the raw ECG/PPG data was preprocessed using a BBSIG pipeline, <strong><code>bbsig_preproc</code> must be set to <code>True</code></strong>. During data import, the BSSIG-related preprocessed JSON files from the corresponding <code>derivatives\{physio_type}-preproc\</code> folder will be loaded. The user has to specify the type of physiological data on which preprocessing was performed (i.e., <code>physio_type = 'ecg'</code> or <code>physio_type = 'ppg'</code>) and the type of RR interval data to extract, depending on the correction method used (i.e., <code>rr_type</code> set to either <code>'manualcorr'</code>, <code>'autocorr'</code>, or <code>'uncorr'</code>). For more details, see the <a href="https://martager.github.io/bbsig/hrv-analysis/#__tabbed_1_1">"BBSIG Preprocessed Data"</a> tab. </p>
+</div>
+<div class="tabbed-block">
+<p>If the BBSIG pipelines were not used for preprocessing, <code>bbsig_preproc</code> must be set to <code>False</code>. During data import, a custom file containing RR intervals (either in seconds or milliseconds) for each participant will be loaded. The custom file should either be a TSV, CSV or TXT file, including <strong>at least one column with the RR interval time series</strong>, either with or without a header. The custom files for each participant should follow a BIDS-compliant naming scheme with the <strong>suffix <code>_rr.{tsv/csv/txt}</code></strong>, and should be stored within the  <code>derivatives\sub-&lt;label&gt;\[ses-&lt;label&gt;]\&lt;datatype&gt;\</code> directory. The user must specify the time units of the RR intervals (i.e., <code>rri_unit = 's'</code> or <code>rri_unit = 'ms'</code>), the type of custom file to load (i.e., <code>file_type</code> set to <code>'tsv'</code>, <code>'csv'</code>, or <code>'txt'</code>), the header row index (if present, <code>file_header</code>; 0-indexed) and the column index containing the RR intervals (i.e., <code>column_rr</code>; 0-indexed). For more details, see the <a href="https://martager.github.io/bbsig/hrv-analysis/#__tabbed_1_2">"Custom RR intervals file"</a> tab. </p>
+</div>
+</div>
+</div>
+<h3 id="settings-2-optional-data-cropping">Settings: 2. (Optional) Data cropping<a class="headerlink" href="#settings-2-optional-data-cropping" title="Permanent link">#</a></h3>
+<p>If <code>crop_window</code> is set to <code>True</code>, the user must specify parameters for <strong>cropping a window from the original RR interval time series</strong>. It is necessary to specify the <strong>start time</strong> of the window (<code>window_start_hrv</code>), in addition to either the <strong>end time</strong> (<code>window_end_hrv</code>) or the <strong>cumulative duration</strong> (<code>window_length_hrv</code>), all in seconds. Whichever of the latter is not specified (either <code>window_end_hrv</code> or <code>window_length_hrv</code>) must be set to <code>None</code>. </p>
+<p>If enabled, metadata regarding the chosen window start and end timepoints will be saved in a new <code>cropped_rrs_dict</code> for each participant.</p>
+<p>Here is an example setup for cropping a window spanning from 0 to 90 seconds in the original data - subsequent HRV analysis will only be performed on this window: 
+<div class="language-py highlight"><pre><span></span><code><span id="__span-4-1"><span class="c1">###### Settings: 2. (Optional) Data cropping ######</span>
+</span><span id="__span-4-2">
+</span><span id="__span-4-3"><span class="c1"># Define whether cropping of a window of specified duration or start/end time is needed</span>
+</span><span id="__span-4-4"><span class="n">crop_window</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># set to True if needed</span>
+</span><span id="__span-4-5">
+</span><span id="__span-4-6"><span class="c1"># Specify the parameters below if crop_window is set to True</span>
+</span><span id="__span-4-7"><span class="c1"># one out of window_end_hrv and window_length_hrv has to be specified, the other can be set to None</span>
+</span><span id="__span-4-8"><span class="k">if</span> <span class="n">crop_window</span><span class="p">:</span> 
+</span><span id="__span-4-9">    <span class="n">window_start_hrv</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># mandatory: start of window for HRV analysis (in seconds)</span>
+</span><span id="__span-4-10">    <span class="n">window_end_hrv</span> <span class="o">=</span> <span class="mi">90</span>  <span class="c1"># optional: end of window for HRV analysis (in seconds), otherwise set to None</span>
+</span><span id="__span-4-11">    <span class="n">window_length_hrv</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># window length for HRV analysis (in seconds), otherwise set to None</span>
+</span></code></pre></div></p>
+<h3 id="settings-4-frequency-domain-hrv-settings">Settings: 4. Frequency-domain HRV settings<a class="headerlink" href="#settings-4-frequency-domain-hrv-settings" title="Permanent link">#</a></h3>
+<p>If <code>compute_hrv_freq</code> is set to <code>True</code>, the user can specify the <strong>sampling frequency for interpolating RR intervals for frequency-domain HRV analysis</strong>. Defaults to 4 Hz, i.e., <code>interpolation_freq = 4</code>. </p>
+<div class="language-py highlight"><pre><span></span><code><span id="__span-5-1"><span class="c1">####### Settings: 4. Frequency-domain HRV settings #######</span>
+</span><span id="__span-5-2">
+</span><span id="__span-5-3"><span class="c1"># Specify the parameters below if compute_hrv_freq is set to True</span>
+</span><span id="__span-5-4"><span class="k">if</span> <span class="n">compute_hrv_freq</span><span class="p">:</span> 
+</span><span id="__span-5-5">    <span class="n">interpolation_freq</span> <span class="o">=</span> <span class="mi">4</span>  <span class="c1"># sampling frequency for interpolating RR intervals for frequency-domain HRV analysis</span>
+</span></code></pre></div>
+<h2 id="1-data-import-and-conversion"><strong>1. Data import and conversion</strong><a class="headerlink" href="#1-data-import-and-conversion" title="Permanent link">#</a></h2>
+<p>This section defines the <strong>custom function <code>load_rr_data()</code> for importing RR interval time series</strong> from either the ECG/PPG data preprocessed <strong>using the BBSIG pipelines</strong> (<code>bbsig_preproc = True</code>) <strong>or a custom TSV/CSV/TXT file</strong> (<code>bbsig_preproc = False</code>) for a given participant, and for converting them to the appropriate format for later processing stages (RR intervals in ms, R-peaks as timestamps). </p>
+<p>The function supports two data input modes:</p>
+<ul>
+<li><strong>From preprocessed JSON files generated by the BBSIG pipelines</strong> (e.g., <code>_ecg-preproc.json</code> or <code>_ppg-preproc.json</code>) in the <code>derivatives</code> folder.<ul>
+<li>Extracts the manual, automatic, or uncorrected R-peak types from the JSON file (as specified by <code>rr_type</code>).</li>
+</ul>
+</li>
+<li><strong>From custom TSV/CSV/TXT files</strong> containing at least one column with the RR interval time series (<code>_rr.{tsv/csv/txt}</code>) in the <code>derivatives</code> folder. <ul>
+<li>Extracts the RR interval time series from a given column (<code>column_rr</code>) excluding the header row (<code>file_header</code>), if present.</li>
+</ul>
+</li>
+</ul>
+<p>After loading the RR intervals from either the BBSIG-generated JSON file or the custom file, the function:</p>
+<ul>
+<li>Converts RR interval values from seconds to milliseconds (if needed)</li>
+<li>Computes R-peak timestamps as the cumulative sum of RR intervals </li>
+<li>Stores a <strong>dictionary <code>rrs_dict</code> containing RR intervals in ms (<code>RRI</code>) and R-peak timestamps (<code>RRI_Time</code>)</strong>, in a format compatible with later NeuroKit2 functions. </li>
+</ul>
+<p>Example structure of <code>rrs_dict</code> for one participant: 
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1">{
+</span><span id="__span-6-2">    &#39;RRI&#39;: array([612., 659., 739., ..., 828., 883., 873.]),                    # RR intervals in miliseconds
+</span><span id="__span-6-3">    &#39;RRI_Time&#39;: array([ 612., 1271., 2010., ..., 597331., 598214., 599087.])    # R-peaks timestamps in seconds 
+</span><span id="__span-6-4">}
+</span></code></pre></div></p>
+<h2 id="2-optional-data-cropping"><strong>2. (Optional) Data cropping</strong><a class="headerlink" href="#2-optional-data-cropping" title="Permanent link">#</a></h2>
+<p>If <code>crop_window</code> is set to <code>True</code>, this section defines a <strong>custom function <code>hrv_window_crop()</code> to crop RR interval data to a specific time window</strong>. This is useful for analyzing a subset of an HRV recording (e.g., a 5-min rest block) instead of the entire session. The function extracts a specific segment of RR interval data <strong>based on either a start and end time</strong> or <strong>a start time and a duration</strong> (in seconds). The corresponding RR intervals and R-peak timestamps for the cropped window are stored in a new dictionary: <code>cropped_rrs_dict</code>.</p>
+<p>Note: one of either <code>window_end</code> or <code>window_length</code> must be specified, while the other must be set to <code>None</code>. </p>
+<p>Example of <code>cropped_rrs_dict</code> for one participant using a window from 0 to 90 seconds:
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1">{
+</span><span id="__span-7-2">    &#39;RRI&#39;: array([612., 659., 739., ..., 726., 786., 804.]),                    # RR intervals in miliseconds
+</span><span id="__span-7-3">    &#39;RRI_Time&#39;: array([ 612., 1271., 2010., ..., 87910., 88696., 89500.])    # R-peaks timestamps in seconds 
+</span><span id="__span-7-4">}
+</span></code></pre></div></p>
+<h2 id="3-optional-compute-time-domain-hrv-metrics"><strong>3. (Optional) Compute time-domain HRV metrics</strong><a class="headerlink" href="#3-optional-compute-time-domain-hrv-metrics" title="Permanent link">#</a></h2>
+<p>If the variable <code>compute_hrv_time</code> is set to <code>True</code> in the optional pipeline steps (see settings above), this section defines the custom function <code>hrv_time_domain()</code> which performs the calculation of time-domain HRV metrics using NeuroKit2's <code>hrv_time()</code> function. The resulting time-domain metrics for the given participant are stored in the <code>hrv_time_metrics</code> dictionary. These metrics include:</p>
+<ul>
+<li><code>MeanRR</code> and <code>MeanBPM</code>: mean RR duration in seconds and mean heart rate (HR) value in beats per minute (BPM)</li>
+<li><code>MedianRR</code> and <code>MedianBPM</code>: median RR duration in seconds and median HR value in BPM</li>
+<li><code>MinRR</code> and <code>MinBPM</code>: minimum RR duration in seconds and minimum HR in BPM</li>
+<li><code>MaxRR</code> and <code>MaxBPM</code>: maximum RR duration in seconds and maximum HR in BPM</li>
+<li><code>SDNN</code>: Standard Deviation of NN (normal-to-normal) intervals</li>
+<li><code>SDSD</code>: Standard Deviation of Successive RR interval Differences </li>
+<li><code>RMSSD</code>: Root Mean Square of Successive Differences </li>
+<li><code>pNN50</code>: Proportion of successive NN intervals that differ more than 50ms (Bigger et al., 1988; Mietus et al., 2002).</li>
+</ul>
+<p>For a full list of time-domain HRV metrics which can be added to the dictionary within the custom function, see the NeuroKit2 <a href="https://neuropsychology.github.io/NeuroKit/functions/hrv.html#hrv-time">documentation of <code>hrv_time()</code></a>. If <code>show_plots</code> is set to <code>True</code> in the optional pipeline steps (see settings above), a plot for the computed time-domain HRV metrics will also be shown. </p>
+<p>Example of the <code>hrv_time_metrics</code> dictionary for one participant on the desired cropped window: 
+<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1">{
+</span><span id="__span-8-2">    &#39;subjID&#39;: &#39;sub-101&#39;, 
+</span><span id="__span-8-3">    &#39;MeanRR&#39;: 792.0353982300885, 
+</span><span id="__span-8-4">    &#39;MeanBPM&#39;: 75.75418994413408, 
+</span><span id="__span-8-5">    &#39;MedianRR&#39;: 795.0, 
+</span><span id="__span-8-6">    &#39;MedianBPM&#39;: 75.47169811320755, 
+</span><span id="__span-8-7">    &#39;MinRR&#39;: 612.0, 
+</span><span id="__span-8-8">    &#39;MinBPM&#39;: 65.64551422319475, 
+</span><span id="__span-8-9">    &#39;MaxRR&#39;: 914.0, 
+</span><span id="__span-8-10">    &#39;MaxBPM&#39;: 98.03921568627452, 
+</span><span id="__span-8-11">    &#39;SDNN&#39;: 61.34750681910679, 
+</span><span id="__span-8-12">    &#39;SDSD&#39;: 48.26810047857201, 
+</span><span id="__span-8-13">    &#39;RMSSD&#39;: 48.08270404804027, 
+</span><span id="__span-8-14">    &#39;pnn50&#39;: 39.823008849557525, 
+</span><span id="__span-8-15">    &#39;window_start&#39;: 0, 
+</span><span id="__span-8-16">    &#39;window_end&#39;: 90
+</span><span id="__span-8-17">}
+</span></code></pre></div></p>
+<p>Here is an example of how NeuroKit2's built-in distribution plot of RR intervals might look: </p>
+<p><img alt="HRV Time Domain" src="../assets/images/hrv_time_plot.png" /></p>
+<h2 id="4-optional-compute-frequency-domain-hrv-metrics"><strong>4. (Optional) Compute frequency-domain HRV metrics</strong><a class="headerlink" href="#4-optional-compute-frequency-domain-hrv-metrics" title="Permanent link">#</a></h2>
+<p>If the variable <code>compute_hrv_freq</code> is set to <code>True</code> in the optional pipeline steps (see settings above), this section defines the custom function <code>hrv_frequency_domain()</code> which performs the calculation of frequency-domain HRV metrics using NeuroKit2's <code>hrv_frequency()</code> function with the default method 'Welch' and 4 Hz interpolation (the interpolation rate can be changed by modifying the <code>interpolation_rate</code> variable in the settings above). The resulting frequency-domain metrics for the given participant are stored in the <code>hrv_freq_metrics</code> dictionary. These metrics include:</p>
+<ul>
+<li><code>VLF</code>: Very Low Frequency power (by default, 0.0033 to 0.04 Hz)</li>
+<li><code>LF</code>: Low Frequency power (by default, 0.04 to 0.15 Hz)</li>
+<li><code>HF</code>: High Frequency power (by default, 0.15 to 0.4 Hz)</li>
+<li><code>LF/HF</code>: ratio of Low-to-High Frequency power — often interpreted as a marker of autonomic balance</li>
+<li><code>LFn</code>: normalized Low Frequency power, obtained by dividing the low frequency power by the total power</li>
+<li><code>HFn</code>: normalized High Frequency power, obtained by dividing the high frequency power by the total power</li>
+<li><code>LnHF</code>: natural logarithm of high frequency power</li>
+</ul>
+<p>For a full list of frequency-domain HRV metrics which can be added to the dictionary within the custom function, see the NeuroKit2 <a href="https://neuropsychology.github.io/NeuroKit/functions/hrv.html#hrv-frequency">documentation of <code>hrv_frequency()</code></a>. If <code>show_plots</code> is set to <code>True</code> in the optional pipeline steps (see settings above), a plot for the computed frequency-domain HRV metrics will also be shown.</p>
+<p>Example of the <code>hrv_freq_metrics</code> dictionary for one participant on the desired cropped window: 
+<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1">{
+</span><span id="__span-9-2">    &#39;subjID&#39;: &#39;sub-101&#39;, 
+</span><span id="__span-9-3">    &#39;VLF&#39;: 0.0015943855081253808, 
+</span><span id="__span-9-4">    &#39;LF&#39;: 6.160565454161458e-09, 
+</span><span id="__span-9-5">    &#39;HF&#39;: 8.170534133301846e-12, 
+</span><span id="__span-9-6">    &#39;LF/HF&#39;: 753.9978847957976, 
+</span><span id="__span-9-7">    &#39;LFn&#39;: 2.6983097056702785e-12, 
+</span><span id="__span-9-8">    &#39;HFn&#39;: 3.578670126377147e-15, 
+</span><span id="__span-9-9">    &#39;LnHF&#39;: -25.53048683180052, 
+</span><span id="__span-9-10">    &#39;window_start&#39;: 0, 
+</span><span id="__span-9-11">    &#39;window_end&#39;: 90
+</span><span id="__span-9-12">}
+</span></code></pre></div></p>
+<p>Here is what NeuroKit2's built-in Power Spectral Density (PSD) plot for HRV frequency domains should look like: </p>
+<p><img alt="HRV Frequency Domain" src="../assets/images/hrv_freq_plot1.png" /></p>
+<details class="bug" open="open">
+<summary>Bug with NeuroKit2's <code>hrv_frequency()</code> PSD plot - heavily skewed ULF values</summary>
+<p>While running the HRV analysis pipeline on RR interval time series of various lengths, including shorter cropped windows (~3 minutes), we encountered a persistent issue with the <code>hrv_frequency()</code> function. According to <a href="https://neuropsychology.github.io/NeuroKit/functions/hrv.html#hrv-frequency">Neurokit's documentation</a>, spectral power in the <strong>Ultra Low Frequency (ULF) band</strong> (&lt; 0.003 Hz) should return <strong>NaN</strong> for short recordings due to insufficient frequency resolution.</p>
+<p>However, in our testing, the computed <code>HRV_ULF</code> consistently returned <strong>unexpectedly high values</strong>, such as:
+<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1">HRV_ULF      HRV_VLF   HRV_LF        HRV_HF        HRV_VHF  
+</span><span id="__span-10-2">2283.118628  0.001594  6.160565e-09  8.170534e-12  4.102655e-14   
+</span></code></pre></div></p>
+<p>This leads to a <strong>heavily skewed Power Spectral Density (PSD) plot</strong> where the ULF component (in purple) dominates the y-axis. Unfortunately, the visualization becomes unusable for interpreting VLF, LF, and HF components, which disappear due to this scaling issue:</p>
+<p><img alt="HRV Frequency Domain Bug" src="../assets/images/hrv_freq_plot2.png" /></p>
+<p>We attempted to disable the ULF band (using the setting <code>ulf=None</code> inside the <code>hrv_frequency()</code> function), but this solution did not fix the issue. <em>We are currently planning to work on a parallel PSD visualization, in addition to opening an issue with the maintainers of NeuroKit2.</em></p>
+</details>
+<h2 id="5-optional-compute-non-linear-hrv-metrics"><strong>5. (Optional) Compute non-linear HRV metrics</strong><a class="headerlink" href="#5-optional-compute-non-linear-hrv-metrics" title="Permanent link">#</a></h2>
+<p>If the variable <code>compute_hrv_nl</code> is set to <code>True</code> in the optional pipeline steps (see settings above), this section defines the custom function <code>hrv_nonlinear()</code> which performs the calculation of non-linear HRV metrics using NeuroKit2's <code>hrv_nonlinear()</code> function. The resulting non-linear metrics are stored in the dictionary <code>hrv_ln_metrics</code>, including:</p>
+<ul>
+<li><code>SD1</code>: Poincaré plot standard deviation of the short-term variability component (i.e., the short-axis of ellipse).</li>
+<li><code>SD2</code>: Poincaré plot standard deviation of the long-term variability component (i.e., the long-axis of ellipse).</li>
+<li><code>SD1/SD2</code>: Poincaré ratio of short-term to long-term variability. </li>
+<li><code>S</code>: Poincaré plot area of the ellipse, proportional to SD1/SD2. </li>
+<li><code>ApEn</code>: <a href="https://neuropsychology.github.io/NeuroKit/functions/complexity.html#neurokit2.complexity.entropy_approximate">approximate entropy</a>, a measure of regularity and complexity of a time series.</li>
+<li><code>SampEn</code>: <a href="https://neuropsychology.github.io/NeuroKit/functions/complexity.html#neurokit2.complexity.entropy_sample">sample entropy</a>, a more robust version of ApEn.</li>
+</ul>
+<p>For a full list of non-linear HRV metrics which can be added to the dictionary within the custom function, see the NeuroKit2 <a href="https://neuropsychology.github.io/NeuroKit/functions/hrv.html#hrv-nonlinear">documentation of <code>hrv_nonlinear()</code></a>. If <code>show_plots</code> is set to <code>True</code> in the optional pipeline steps (see settings above), a plot for the computed non-linear HRV metrics will also be shown. </p>
+<p>Example of the <code>hrv_ln_metrics</code> dictionary for one participant using a cropped window of 0 to 90 seconds: 
+<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1">{
+</span><span id="__span-11-2">    &#39;subjID&#39;: &#39;sub-101&#39;, 
+</span><span id="__span-11-3">    &#39;SD1&#39;: 34.130701163391905, 
+</span><span id="__span-11-4">    &#39;SD2&#39;: 78.32001310664121, 
+</span><span id="__span-11-5">    &#39;SD1/SD2&#39;: 0.4357851819677206, 
+</span><span id="__span-11-6">    &#39;S&#39;: 8397.844611437116, 
+</span><span id="__span-11-7">    &#39;ApEn&#39;: 0.6585571938830488, 
+</span><span id="__span-11-8">    &#39;SampEn&#39;: 1.508184178728928, 
+</span><span id="__span-11-9">    &#39;window_start&#39;: 0, 
+</span><span id="__span-11-10">    &#39;window_end&#39;: 90
+</span><span id="__span-11-11">}
+</span></code></pre></div></p>
+<p>Here is what NeuroKit2's built-in Poincaré plot for non-linear HRV looks like: </p>
+<p><img alt="HRV Non-Linear" src="../assets/images/hrv_nonlinear_plot.png" /></p>
+<h2 id="6-data-output"><strong>6. Data output</strong><a class="headerlink" href="#6-data-output" title="Permanent link">#</a></h2>
+<p>This section defines a <strong>custom function, <code>save_hrv_data()</code>, to save the computed HRV metrics</strong> (time-domain, frequency-domain, and non-linear, if enabled) <strong>of all participants to a summary TSV file</strong>. In detail, this section will: </p>
+<ul>
+<li>Convert the input <code>hrv_data</code> (a dictionary generated from one of the pipelines steps in <a href="https://martager.github.io/bbsig/hrv-analysis/#3-optional-compute-time-domain-hrv-metrics">Sect. 3</a>, <a href="https://martager.github.io/bbsig/hrv-analysis/#4-optional-compute-frequency-domain-hrv-metrics">Sect. 4</a> or <a href="https://martager.github.io/bbsig/hrv-analysis/#5-optional-compute-non-linear-hrv-metrics">Sect. 5</a>) into a DataFrame</li>
+<li>Create an output directory in <code>derivatives/hrv-analysis/</code>, if not already available.</li>
+<li>Save the DataFrame as a TSV file named according to the BIDS-compliant <code>task-&lt;label&gt;</code> and HRV analysis type (<code>time</code>, <code>freq</code>, or <code>nonlinear</code>), e.g., <code>task-rest_hrv_time.tsv</code>. </li>
+</ul>
+<h2 id="7-main-analysis-loop"><strong>7. Main analysis loop</strong><a class="headerlink" href="#7-main-analysis-loop" title="Permanent link">#</a></h2>
+<p>The optional pipeline steps from the previous sections are executed, as part of the main analysis loop, <strong>if and only if they are flagged as enabled in the main loop</strong>, which itself will run on every participant included in the <code>participant_ids</code> list. </p>
+<p>The main loop will also save the computed HRV metrics as TSV files with one row per participant. Please make sure that all the pipeline steps you wish to execute are set to <code>True</code> in the <a href="https://martager.github.io/bbsig/hrv-analysis/#settings-optional-pipeline-steps">Settings: optional pipeline steps</a>. <img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/26a0.svg" title=":warning:" /> Note that at least one of the two options <code>compute_hrv_time</code> or <code>compute_hrv_freq</code> must be <code>True</code>!</p>
+<p>Here are all the sub-sections of the main analysis loop: 
+<div class="language-py highlight"><pre><span></span><code><span id="__span-12-1"><span class="c1"># initialize empty lists to store HRV metrics</span>
+</span><span id="__span-12-2"><span class="n">all_hrv_time</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="__span-12-3"><span class="n">all_hrv_freq</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="__span-12-4"><span class="n">all_hrv_nl</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="__span-12-5">
+</span><span id="__span-12-6"><span class="c1"># Loop through each participant ID and perform HRV analysis</span>
+</span><span id="__span-12-7"><span class="k">for</span> <span class="n">subj</span> <span class="ow">in</span> <span class="n">participant_ids</span><span class="p">:</span>
+</span><span id="__span-12-8">
+</span><span id="__span-12-9">    <span class="n">subj_id</span> <span class="o">=</span> <span class="s1">&#39;sub-&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">subj</span><span class="p">)</span> <span class="c1"># participant ID (in BIDS format)</span>
+</span><span id="__span-12-10">
+</span><span id="__span-12-11">    <span class="c1">############## Create base BIDS-compatible filename and directory ##############</span>
+</span><span id="__span-12-12">
+</span><span id="__span-12-13">    <span class="c1"># If you have additional BIDS entities (e.g., &#39;run&#39; or &#39;recording&#39;) you can change the base BIDS file name below</span>
+</span><span id="__span-12-14">    <span class="c1"># e.g., f&#39;{subj_id}_ses-{session_idx}_task-{task_name}_run-{run_idx}_recording-{rec_name}&#39; </span>
+</span><span id="__span-12-15">    <span class="k">if</span> <span class="n">session_idx</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-12-16">        <span class="n">bids_base_fname</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">subj_id</span><span class="si">}</span><span class="s1">_ses-</span><span class="si">{</span><span class="n">session_idx</span><span class="si">}</span><span class="s1">_task-</span><span class="si">{</span><span class="n">task_name</span><span class="si">}</span><span class="s1">&#39;</span> 
+</span><span id="__span-12-17">        <span class="n">bids_base_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">subj_id</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;ses-</span><span class="si">{</span><span class="n">session_idx</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">datatype_name</span><span class="p">)</span> <span class="c1"># base BIDS folders incl. session &#39;sub-&lt;ID&gt;/ses-&lt;label&gt;/&lt;datatype&gt;/&#39;</span>
+</span><span id="__span-12-18">    <span class="k">else</span><span class="p">:</span>
+</span><span id="__span-12-19">        <span class="n">bids_base_fname</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">subj_id</span><span class="si">}</span><span class="s1">_task-</span><span class="si">{</span><span class="n">task_name</span><span class="si">}</span><span class="s1">&#39;</span>
+</span><span id="__span-12-20">        <span class="n">bids_base_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">subj_id</span><span class="p">,</span> <span class="n">datatype_name</span><span class="p">)</span> <span class="c1"># base BIDS folders without session &#39;sub-&lt;ID&gt;/&lt;datatype&gt;/&#39; </span>
+</span><span id="__span-12-21">
+</span><span id="__span-12-22">
+</span><span id="__span-12-23">    <span class="c1">############## Sect. 1: Data import of RR intervals ##############</span>
+</span><span id="__span-12-24">    <span class="n">rr</span> <span class="o">=</span> <span class="n">load_rr_data</span><span class="p">(</span><span class="n">wd</span><span class="p">,</span> <span class="n">bids_base_fname</span><span class="p">,</span> <span class="n">bids_base_dir</span><span class="p">,</span> <span class="n">rr_type</span><span class="p">,</span> <span class="n">rri_unit</span><span class="p">,</span> <span class="n">bbsig_preproc</span><span class="o">=</span><span class="n">bbsig_preproc</span><span class="p">,</span> <span class="n">physio_type</span><span class="o">=</span><span class="n">physio_type</span><span class="p">)</span>
+</span><span id="__span-12-25">
+</span><span id="__span-12-26">
+</span><span id="__span-12-27">    <span class="c1">############## Sect. 2: Data cropping ##############</span>
+</span><span id="__span-12-28">    <span class="k">if</span> <span class="n">crop_window</span><span class="p">:</span>
+</span><span id="__span-12-29">        <span class="n">rr</span><span class="p">,</span> <span class="n">window_start</span><span class="p">,</span> <span class="n">window_end</span> <span class="o">=</span> <span class="n">hrv_window_crop</span><span class="p">(</span><span class="n">rr</span><span class="p">,</span> <span class="n">window_start</span><span class="o">=</span><span class="n">window_start_hrv</span><span class="p">,</span> <span class="n">window_end</span><span class="o">=</span><span class="n">window_end_hrv</span><span class="p">,</span> <span class="n">window_length</span><span class="o">=</span><span class="n">window_length_hrv</span><span class="p">)</span>
+</span><span id="__span-12-30">
+</span><span id="__span-12-31">
+</span><span id="__span-12-32">    <span class="c1">############## Sect. 3: Computation of time-domain HRV, if required ##############</span>
+</span><span id="__span-12-33">    <span class="k">if</span> <span class="n">compute_hrv_time</span><span class="p">:</span>
+</span><span id="__span-12-34">        <span class="n">hrv_time_metrics</span> <span class="o">=</span> <span class="n">hrv_time_domain</span><span class="p">(</span><span class="n">rr</span><span class="p">,</span> <span class="n">subj</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="n">show_plots</span><span class="p">)</span>
+</span><span id="__span-12-35">        <span class="k">if</span> <span class="n">crop_window</span><span class="p">:</span>
+</span><span id="__span-12-36">            <span class="n">hrv_time_metrics</span><span class="p">[</span><span class="s1">&#39;window_start&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">window_start</span>     <span class="c1"># save metadata about start of cropped window</span>
+</span><span id="__span-12-37">            <span class="n">hrv_time_metrics</span><span class="p">[</span><span class="s1">&#39;window_end&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">window_end</span>         <span class="c1"># save metadata about end of cropped window</span>
+</span><span id="__span-12-38">        <span class="n">all_hrv_time</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hrv_time_metrics</span><span class="p">)</span>
+</span><span id="__span-12-39">
+</span><span id="__span-12-40">
+</span><span id="__span-12-41">    <span class="c1">############## Sect. 4: Computation of frequency-domain HRV, if required ##############</span>
+</span><span id="__span-12-42">    <span class="k">if</span> <span class="n">compute_hrv_freq</span><span class="p">:</span>
+</span><span id="__span-12-43">        <span class="n">hrv_freq_metrics</span><span class="p">,</span> <span class="n">hrv_f</span> <span class="o">=</span> <span class="n">hrv_frequency_domain</span><span class="p">(</span><span class="n">rr</span><span class="p">,</span> <span class="n">subj</span><span class="p">,</span> <span class="n">interpolation_freq</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="n">show_plots</span><span class="p">)</span>
+</span><span id="__span-12-44">        <span class="k">if</span> <span class="n">crop_window</span><span class="p">:</span>
+</span><span id="__span-12-45">            <span class="n">hrv_freq_metrics</span><span class="p">[</span><span class="s1">&#39;window_start&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">window_start</span>     <span class="c1"># save metadata about start of cropped window</span>
+</span><span id="__span-12-46">            <span class="n">hrv_freq_metrics</span><span class="p">[</span><span class="s1">&#39;window_end&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">window_end</span>         <span class="c1"># save metadata about end of cropped window</span>
+</span><span id="__span-12-47">        <span class="n">all_hrv_freq</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hrv_freq_metrics</span><span class="p">)</span>
+</span><span id="__span-12-48">
+</span><span id="__span-12-49">
+</span><span id="__span-12-50">    <span class="c1">############## Sect. 5: Computation of non-linear HRV, if required ##############</span>
+</span><span id="__span-12-51">    <span class="k">if</span> <span class="n">compute_hrv_nl</span><span class="p">:</span>
+</span><span id="__span-12-52">        <span class="n">hrv_nl_metrics</span> <span class="o">=</span> <span class="n">hrv_nonlinear</span><span class="p">(</span><span class="n">rr</span><span class="p">,</span> <span class="n">subj</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="n">show_plots</span><span class="p">)</span>
+</span><span id="__span-12-53">        <span class="k">if</span> <span class="n">crop_window</span><span class="p">:</span>
+</span><span id="__span-12-54">            <span class="n">hrv_nl_metrics</span><span class="p">[</span><span class="s1">&#39;window_start&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">window_start</span>       <span class="c1"># save metadata about start of cropped window</span>
+</span><span id="__span-12-55">            <span class="n">hrv_nl_metrics</span><span class="p">[</span><span class="s1">&#39;window_end&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">window_end</span>           <span class="c1"># save metadata about end of cropped window</span>
+</span><span id="__span-12-56">        <span class="n">all_hrv_nl</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hrv_nl_metrics</span><span class="p">)</span>
+</span><span id="__span-12-57">
+</span><span id="__span-12-58">
+</span><span id="__span-12-59"><span class="c1">############## Sect. 6: Data output ##############</span>
+</span><span id="__span-12-60">
+</span><span id="__span-12-61"><span class="c1"># If enabled, save TSV file with computed time-domain HRV metrics for all participants</span>
+</span><span id="__span-12-62"><span class="k">if</span> <span class="n">compute_hrv_time</span><span class="p">:</span>
+</span><span id="__span-12-63">    <span class="n">save_hrv_data</span><span class="p">(</span><span class="n">wd</span><span class="p">,</span> <span class="n">task_name</span><span class="p">,</span> <span class="n">session_idx</span><span class="p">,</span> <span class="n">all_hrv_time</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">)</span>
+</span><span id="__span-12-64">    <span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">all_hrv_time</span><span class="p">))</span>
+</span><span id="__span-12-65">
+</span><span id="__span-12-66"><span class="c1"># If enabled, save TSV file with computed frequency-domain HRV metrics for all participants</span>
+</span><span id="__span-12-67"><span class="k">if</span> <span class="n">compute_hrv_freq</span><span class="p">:</span>
+</span><span id="__span-12-68">    <span class="n">save_hrv_data</span><span class="p">(</span><span class="n">wd</span><span class="p">,</span> <span class="n">task_name</span><span class="p">,</span> <span class="n">session_idx</span><span class="p">,</span> <span class="n">all_hrv_freq</span><span class="p">,</span> <span class="s1">&#39;freq&#39;</span><span class="p">)</span>
+</span><span id="__span-12-69">    <span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">all_hrv_freq</span><span class="p">))</span>
+</span><span id="__span-12-70">
+</span><span id="__span-12-71"><span class="c1"># If enabled, save TSV file with computed non-linear HRV metrics for all participants</span>
+</span><span id="__span-12-72"><span class="k">if</span> <span class="n">compute_hrv_nl</span><span class="p">:</span>
+</span><span id="__span-12-73">    <span class="n">save_hrv_data</span><span class="p">(</span><span class="n">wd</span><span class="p">,</span> <span class="n">task_name</span><span class="p">,</span> <span class="n">session_idx</span><span class="p">,</span> <span class="n">all_hrv_nl</span><span class="p">,</span> <span class="s1">&#39;nonlinear&#39;</span><span class="p">)</span>
+</span><span id="__span-12-74">    <span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">all_hrv_nl</span><span class="p">))</span>
+</span></code></pre></div></p>
+<h2 id="good-job-your-hrv-analysis-is-done"><strong>Good job, your HRV analysis is done! 🥳</strong><a class="headerlink" href="#good-job-your-hrv-analysis-is-done" title="Permanent link">#</a></h2>
+<p>Your <code>derivatives/hrv-analysis/</code> directory should now include the following files - assuming you have enabled all optional steps; otherwise, you will certainly have either <code>_hrv-time.tsv</code> or <code>_hrv-freq.tsv</code>:</p>
+<ul>
+<li><strong><code>_hrv-time.tsv</code></strong>: stores the summary table with the time-domain HRV metrics for all participants (see <a href="https://martager.github.io/bbsig/hrv-analysis/#3-optional-compute-time-domain-hrv-metrics">Sect. 3</a>).</li>
+<li><strong><code>_hrv-freq.tsv</code></strong>: stores the summary table with the frequency-domain HRV metrics for all participants (see <a href="https://martager.github.io/bbsig/hrv-analysis/#4-optional-compute-frequency-domain-hrv-metrics">Sect. 4</a>).</li>
+<li><strong><code>_hrv-nonlinear.tsv</code></strong>: stores the summary table with the non-linear HRV metrics for all participants (see <a href="https://martager.github.io/bbsig/hrv-analysis/#5-optional-compute-non-linear-hrv-metrics">Sect. 5</a>).</li>
+</ul>
+<figure>
+<p><img alt="HRV output files" src="../assets/images/hrv_analysis_output.png" width="500" /></p>
+<figcaption></figcaption>
+</figure>
+<details class="note">
+<summary>Example of the <code>_hrv-time.tsv</code> summary table</summary>
+<table>
+<thead>
+<tr>
+<th>subjID</th>
+<th>MeanRR</th>
+<th>MeanBPM</th>
+<th>MedianRR</th>
+<th>MedianBPM</th>
+<th>MinRR</th>
+<th>MinBPM</th>
+<th>MaxRR</th>
+<th>MaxBPM</th>
+<th>SDNN</th>
+<th>SDSD</th>
+<th>RMSSD</th>
+<th>pnn50</th>
+<th>window_start</th>
+<th>window_end</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>sub-101</td>
+<td>792.035398</td>
+<td>75.75419</td>
+<td>795.0</td>
+<td>75.471698</td>
+<td>612.0</td>
+<td>65.645514</td>
+<td>914.0</td>
+<td>98.039216</td>
+<td>61.347507</td>
+<td>48.268100</td>
+<td>48.082704</td>
+<td>39.823009</td>
+<td>0</td>
+<td>90</td>
+</tr>
+<tr>
+<td>sub-&lt;...&gt;</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+</tbody>
+</table>
+</details>
+<details class="note">
+<summary>Example of the <code>_hrv-freq.tsv</code> summary table</summary>
+<table>
+<thead>
+<tr>
+<th>subjID</th>
+<th>VLF</th>
+<th>LF</th>
+<th>HF</th>
+<th>LF/HF</th>
+<th>LFn</th>
+<th>HFn</th>
+<th>LnFH</th>
+<th>window_start</th>
+<th>window_end</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>sub-101</td>
+<td>0.001594</td>
+<td>6.160565e-09</td>
+<td>8.170534e-12</td>
+<td>753.997885</td>
+<td>2.698310e-12</td>
+<td>3.578670e-15</td>
+<td>-25.530487</td>
+<td>0</td>
+<td>90</td>
+</tr>
+<tr>
+<td>sub-&lt;...&gt;</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+</tbody>
+</table>
+</details>
+<details class="note">
+<summary>Example of the <code>_hrv-nonlinear.tsv</code> summary table</summary>
+<table>
+<thead>
+<tr>
+<th>subjID</th>
+<th>SD1</th>
+<th>SD2</th>
+<th>SD1/SD2</th>
+<th>S</th>
+<th>ApEn</th>
+<th>SampEn</th>
+<th>window_start</th>
+<th>window_end</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>sub-101</td>
+<td>34.130701</td>
+<td>78.320013</td>
+<td>0.435785</td>
+<td>8397.844611</td>
+<td>0.658557</td>
+<td>1.508184</td>
+<td>0</td>
+<td>90</td>
+</tr>
+<tr>
+<td>sub-&lt;...&gt;</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+</tbody>
+</table>
+</details>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://github.com/martager/bbsig" target="_blank" rel="noopener" title="BBSIG on GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://bsky.app/profile/mbe-lab.bsky.social" target="_blank" rel="noopener" title="mbe-lab on Bluesky" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M64 32C28.7 32 0 60.7 0 96v320c0 35.3 28.7 64 64 64h320c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64zm160 215.4c14.5-30 54-85.8 90.7-113.3 26.5-19.9 69.3-35.2 69.3 13.7 0 9.8-5.6 82.1-8.9 93.8-11.4 40.8-53 51.2-90 44.9 64.7 11 81.2 47.5 45.6 84-67.5 69.3-97-17.4-104.6-39.6l-.3-.9c-.9-2.6-1.4-4.1-1.8-4.1s-.9 1.5-1.8 4.1l-.3.9c-7.6 22.2-37.1 108.8-104.6 39.6-35.5-36.5-19.1-73 45.6-84-37 6.3-78.6-4.1-90-44.9-3.3-11.7-8.9-84-8.9-93.8 0-48.9 42.9-33.5 69.3-13.7 36.7 27.5 76.2 83.4 90.7 113.3"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://bsky.app/profile/martager.bsky.social" target="_blank" rel="noopener" title="martager on Bluesky" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M64 32C28.7 32 0 60.7 0 96v320c0 35.3 28.7 64 64 64h320c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64zm160 215.4c14.5-30 54-85.8 90.7-113.3 26.5-19.9 69.3-35.2 69.3 13.7 0 9.8-5.6 82.1-8.9 93.8-11.4 40.8-53 51.2-90 44.9 64.7 11 81.2 47.5 45.6 84-67.5 69.3-97-17.4-104.6-39.6l-.3-.9c-.9-2.6-1.4-4.1-1.8-4.1s-.9 1.5-1.8 4.1l-.3.9c-7.6 22.2-37.1 108.8-104.6 39.6-35.5-36.5-19.1-73 45.6-84-37 6.3-78.6-4.1-90-44.9-3.3-11.7-8.9-84-8.9-93.8 0-48.9 42.9-33.5 69.3-13.7 36.7 27.5 76.2 83.4 90.7 113.3"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.top", "search.highlight", "search.suggest", "toc.follow", "content.code.copy", "content.code.select"], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c8b220af.min.js"></script>
+      
+    
+  </body>
+</html>

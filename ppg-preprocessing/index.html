@@ -1,0 +1,1827 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Brain-Body Analysis Special Interest Group (BBSIG) - reproducible, open-access pipelines for peripheral physiology analysis">
+      
+      
+      
+        <link rel="canonical" href="https://martager.github.io/bbsig/ppg-preprocessing/">
+      
+      
+        <link rel="prev" href="../ecg-preprocessing/">
+      
+      
+        <link rel="next" href="../hrv-analysis/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.11">
+    
+    
+      
+        <title>PPG preprocessing - Brain-Body Analysis Special Interest Group (BBSIG)</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.4af4bdda.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../css/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ppg-preprocessing-ppg_preprocipynb" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Brain-Body Analysis Special Interest Group (BBSIG)" class="md-header__button md-logo" aria-label="Brain-Body Analysis Special Interest Group (BBSIG)" data-md-component="logo">
+      
+  <img src="../bbsig_logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Brain-Body Analysis Special Interest Group (BBSIG)
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              PPG preprocessing
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/martager/bbsig" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    martager/bbsig
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href=".." class="md-tabs__link">
+          
+  
+  
+  Home
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../overview/" class="md-tabs__link">
+          
+  
+  
+  Getting started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../ecg-preprocessing/" class="md-tabs__link">
+          
+  
+  
+  Pipelines
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../contributors/" class="md-tabs__link">
+          
+  
+  
+  About us
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Brain-Body Analysis Special Interest Group (BBSIG)" class="md-nav__button md-logo" aria-label="Brain-Body Analysis Special Interest Group (BBSIG)" data-md-component="logo">
+      
+  <img src="../bbsig_logo.png" alt="logo">
+
+    </a>
+    Brain-Body Analysis Special Interest Group (BBSIG)
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/martager/bbsig" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    martager/bbsig
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            Home
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Getting started
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Getting started
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quick overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../setup-bbsig-env/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Create the virtual environment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bids-structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Organize your BIDS folders
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faqs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    FAQs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Pipelines
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Pipelines
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ecg-preprocessing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ECG preprocessing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    PPG preprocessing
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    PPG preprocessing
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pipeline-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pipeline structure
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#settings-optional-pipeline-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Settings: optional pipeline steps
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-data-import-and-conversion" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Data import and conversion
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-optional-ppg-normalization-filtering-clipping-artifact-correction" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. (Optional) PPG normalization, filtering &amp; clipping artifact correction
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. (Optional) PPG normalization, filtering &amp; clipping artifact correction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2a-ppg-normalization" class="md-nav__link">
+    <span class="md-ellipsis">
+      2a. PPG normalization
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2b-ppg-filtering" class="md-nav__link">
+    <span class="md-ellipsis">
+      2b. PPG filtering
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2c-ppg-clipping-artifact-detection-and-interpolation" class="md-nav__link">
+    <span class="md-ellipsis">
+      2c. PPG clipping artifact detection and interpolation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-ppg-peak-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. PPG peak detection
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-optional-interactive-visualization" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. (Optional) interactive visualization
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. (Optional) interactive visualization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4a-interactive-plot-of-ppg-signal-and-systolic-peaks" class="md-nav__link">
+    <span class="md-ellipsis">
+      4a. Interactive plot of PPG signal and systolic peaks
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4b-interactive-plot-of-subspaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      4b. Interactive plot of subspaces
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-manual-ppg-peaks-correction" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Manual PPG peaks correction
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Manual PPG peaks correction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5a-manual-ppg-peaks-correction-interactive-plot" class="md-nav__link">
+    <span class="md-ellipsis">
+      5a. Manual PPG peaks correction: interactive plot
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5b-manual-ppg-peaks-correction-data-saving" class="md-nav__link">
+    <span class="md-ellipsis">
+      5b. Manual PPG peaks correction: data saving
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-data-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Data output
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Data output">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#6a-optional-export-raw-and-clean-ppg-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      6a. (Optional) Export raw and clean PPG data
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6b-export-main-ppg-preprocessing-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      6b. Export main PPG preprocessing features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6c-optional-export-interpolated-hr-in-bpm" class="md-nav__link">
+    <span class="md-ellipsis">
+      6c. (Optional) Export interpolated HR (in bpm)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#good-job-your-ppg-preprocessing-is-done" class="md-nav__link">
+    <span class="md-ellipsis">
+      Good job, your PPG preprocessing is done! 🥳
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hrv-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    HRV analysis
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    About us
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            About us
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contributors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Contributors
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cite-us/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cite us
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../license/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    License
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../acknowledgments/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Acknowledgments
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pipeline-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pipeline structure
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#settings-optional-pipeline-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Settings: optional pipeline steps
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-data-import-and-conversion" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Data import and conversion
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-optional-ppg-normalization-filtering-clipping-artifact-correction" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. (Optional) PPG normalization, filtering &amp; clipping artifact correction
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. (Optional) PPG normalization, filtering &amp; clipping artifact correction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2a-ppg-normalization" class="md-nav__link">
+    <span class="md-ellipsis">
+      2a. PPG normalization
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2b-ppg-filtering" class="md-nav__link">
+    <span class="md-ellipsis">
+      2b. PPG filtering
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2c-ppg-clipping-artifact-detection-and-interpolation" class="md-nav__link">
+    <span class="md-ellipsis">
+      2c. PPG clipping artifact detection and interpolation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-ppg-peak-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. PPG peak detection
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-optional-interactive-visualization" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. (Optional) interactive visualization
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. (Optional) interactive visualization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4a-interactive-plot-of-ppg-signal-and-systolic-peaks" class="md-nav__link">
+    <span class="md-ellipsis">
+      4a. Interactive plot of PPG signal and systolic peaks
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4b-interactive-plot-of-subspaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      4b. Interactive plot of subspaces
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-manual-ppg-peaks-correction" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Manual PPG peaks correction
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Manual PPG peaks correction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5a-manual-ppg-peaks-correction-interactive-plot" class="md-nav__link">
+    <span class="md-ellipsis">
+      5a. Manual PPG peaks correction: interactive plot
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5b-manual-ppg-peaks-correction-data-saving" class="md-nav__link">
+    <span class="md-ellipsis">
+      5b. Manual PPG peaks correction: data saving
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-data-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Data output
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Data output">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#6a-optional-export-raw-and-clean-ppg-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      6a. (Optional) Export raw and clean PPG data
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6b-export-main-ppg-preprocessing-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      6b. Export main PPG preprocessing features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6c-optional-export-interpolated-hr-in-bpm" class="md-nav__link">
+    <span class="md-ellipsis">
+      6c. (Optional) Export interpolated HR (in bpm)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#good-job-your-ppg-preprocessing-is-done" class="md-nav__link">
+    <span class="md-ellipsis">
+      Good job, your PPG preprocessing is done! 🥳
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="ppg-preprocessing-ppg_preprocipynb"><strong>PPG preprocessing: <code>ppg_preproc.ipynb</code></strong><a class="headerlink" href="#ppg-preprocessing-ppg_preprocipynb" title="Permanent link">#</a></h1>
+<p>This step-by-step tutorial will walk you through how to use the <strong>Jupyter notebook for preprocessing raw PPG data</strong>, developed as part of the Brain-Body Analysis Special Interest Group (BBSIG). You can find this pipeline under the name: <code>ppg_preproc.ipynb</code>.</p>
+<details class="note">
+<summary>Never used a Jupyter notebook before?</summary>
+<p>If you have never used a Jupyter notebook before, visit our setup instructions in the <a href="https://martager.github.io/bbsig/faqs/#jupyter-notebooks">FAQs</a>. Especially if you are planning to perform the manual PPG peak correction, <strong>we recommend following the instructions to run this pipeline locally</strong> in your IDE of choice (e.g., VS Code, PyCharm). </p>
+</details>
+<details class="warning" open="open">
+<summary>Before starting: multiple participants or one at a time?</summary>
+<p>This PPG pre-processing pipeline is <strong>designed to run over multiple participants at once</strong>. If you do not want to manually check and edit the peaks locations (see <a href="https://martager.github.io/bbsig/ppg-preprocessing/#5-manual-ppg-peaks-correction">Sect. 5</a>), each participant will be pre-processed and their summary files will be saved in the respective folder. Just make sure that the optional settings variable <code>manual_correct</code> is set to <code>False</code>. </p>
+<p>However, if you plan to use the interactive visualization for the <strong>manual correction</strong> of PPG systolic peaks (via Systole’s <code>Editor</code>), <strong>we recommend you run the PPG preprocessing pipeline on one participant (or very few participants) at a time</strong>. The participant ID(s) are included in <a href="https://martager.github.io/bbsig/ppg-preprocessing/#1-data-import-and-conversion">Sect. 1</a> during data import under the variable <code>participant_ids</code>, so you can specify the ID(s) of the participants you want to pre-process and then proceed to run the pipeline until <a href="https://martager.github.io/bbsig/ppg-preprocessing/#5-manual-ppg-peaks-correction">Sect. 5</a>. At that point, you can further specify which participant ID to manually correct under <code>participants_manual</code>, proceed with its manual correction and save it, before repeating this section again with a different participant ID. When you are done with manual correction, run the last section (<a href="https://martager.github.io/bbsig/ppg-preprocessing/#6-data-output">Sect. 6</a>) for data output of all participants. </p>
+<p>If you leave the <code>participant_ids</code> list empty, it will run on all participants in the specified working directory folder.</p>
+<div class="language-py highlight"><pre><span></span><code><span id="__span-0-1"><span class="c1">############## Define path for PPG data ##############</span>
+</span><span id="__span-0-2">
+</span><span id="__span-0-3"><span class="c1"># Set participant IDs - if empty, it will process all participants in the directory</span>
+</span><span id="__span-0-4"><span class="n">participant_ids</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Adjust as needed, or set to an empty list `[]` to process all participants</span>
+</span></code></pre></div>
+</details>
+<h2 id="pipeline-structure"><strong>Pipeline structure</strong><a class="headerlink" href="#pipeline-structure" title="Permanent link">#</a></h2>
+<p>The following steps are included in the PPG preprocessing pipeline:</p>
+<ol>
+<li>
+<p><a href="https://martager.github.io/bbsig/ppg-preprocessing/#1-data-import-and-conversion"><strong>Data import and conversion</strong></a>: import the BIDS-compliant <code>_physio.tsv.gz</code> and <code>_physio.json</code> files containing the raw PPG signal and its metadata, then convert them into appropriate formats for later processing stages. </p>
+</li>
+<li>
+<p><a href="https://martager.github.io/bbsig/ppg-preprocessing/#2-optional-ppg-normalization-filtering-clipping-artifacts-correction"><strong>(Optional) PPG normalization, filtering, &amp; clipping artifact correction</strong></a>: normalize the signal between 1 and -1 (<a href="https://martager.github.io/bbsig/ppg-preprocessing/#2a-ppg-normalization">Sect. 2a</a>), clean the PPG signal using NeuroKit2’s <code>signal_clean()</code> function (0.5 Hz high-pass and 8Hz low-pass 3rd order Butterworth filters; see <a href="https://martager.github.io/bbsig/ppg-preprocessing/#2b-ppg-filtering">Sect. 2b</a>). Automatically handles clipping artifacts with Systole’s <code>find_clipping()</code> to identify the clipping threshold and <code>interpolate_clipping()</code> to interpolate the missing clipped peaks (or troughs); see <a href="https://martager.github.io/bbsig/ppg-preprocessing/#2c-ppg-clipping-artifacts-detection-and-interpolation">Sect. 2c</a>. </p>
+</li>
+<li>
+<p><a href="https://martager.github.io/bbsig/ppg-preprocessing/#3-ppg-peaks-detection"><strong>PPG peaks detection</strong></a>: custom function to detect PPG systolic peaks using NeuroKit2’s <code>nk.ppg_peaks()</code> with the 'elgendi' method. Optionally, two complementary automated artifact correction methods can be selected (i.e. NeuroKit2’s internal correction and/or Systole's <code>correct_peaks()</code>). Saves uncorrected (and automatically corrected) peak indices, as well as metadata about corrected artifacts (if applicable).</p>
+</li>
+<li>
+<p><a href="https://martager.github.io/bbsig/ppg-preprocessing/#4-optional-interactive-visualization"><strong>(Optional) interactive visualization</strong></a>: plot an interactive visualization of ECG signal with systolic peaks and instantaneous heart rate using Systole’s <code>plot_raw()</code> function, or produce interactive sub-space plots to identify artifacts (ectopic beats, long/short intervals) using Systole’s <code>plot_subspaces()</code> function. Plots can either be shown inside the notebook (if <code>plot_within_notebook</code> is set to <code>True</code>) or opened in a browser as HTML files. </p>
+</li>
+<li>
+<p><a href="https://martager.github.io/bbsig/ppg-preprocessing/#5-manual-ppg-peaks-correction"><strong>Manual peaks correction</strong></a>: manually identify and correct mis-detected PPG peaks and label bad segments using Systole’s <code>Editor</code>(saves output to <code>manual-correction.json</code> in the <code>derivatives</code> folder). It is recommended to run this section one participant at a time. </p>
+</li>
+<li>
+<p><a href="https://martager.github.io/bbsig/ppg-preprocessing/#6-data-output"><strong>Data output</strong></a>: export the <code>_ppg-cleaned.tsv.gz</code> (optional) and <code>_ppg-preproc.json</code> files for each subject in BIDS-compliant format to <code>/derivatives/ecg-preproc/sub-xx/</code>. Additionally, an <code>_hr-bpm-{correction_type}.tsv.gz</code> file can be saved with interpolated HR (in bpm).</p>
+</li>
+</ol>
+<h2 id="settings-optional-pipeline-steps"><strong>Settings: optional pipeline steps</strong><a class="headerlink" href="#settings-optional-pipeline-steps" title="Permanent link">#</a></h2>
+<p>This section defines a series of variables that can be set to <code>True</code> to include the corresponding pipeline steps:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;"><div style="width:170px">Variable Name</div></th>
+<th style="text-align: left;">Function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong><code>ppg_normalize</code></strong> (bool)</td>
+<td style="text-align: left;"><strong>PPG normalization</strong> (<a href="https://martager.github.io/bbsig/ppg-preprocessing/#2a-ppg-normalization">Sect. 2a</a>): normalizes the raw PPG signal between 1 and -1.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>ppg_filter</code></strong> (bool)</td>
+<td style="text-align: left;"><strong>PPG filtering</strong> (<a href="https://martager.github.io/bbsig/ppg-preprocessing/#2b-ppg-filtering">Sect. 2b</a>): cleans the PPG signal by applying 0.5-8 Hz band-pass 3rd order Butterworth filters.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>clip_artifacts_correct</code></strong> (bool)</td>
+<td style="text-align: left;"><strong>PPG clipping artifacts detection and interpolation</strong> (<a href="https://martager.github.io/bbsig/ppg-preprocessing/#2c-ppg-clipping-artifacts-detection-and-interpolation">Sect. 2c</a>): performs automated clipping artifact correction using Systole's <a href="https://embodied-computation-group.github.io/systole/generated/utils/systole.utils.find_clipping.html"><code>find_clipping()</code></a> to identify the clipping threshold and <code>interpolate_clipping()</code> to interpolate the missing clipped peaks (or troughs).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>correct_artifacts_nk</code></strong> (bool)</td>
+<td style="text-align: left;"><strong>PPG automated artifact correction by NeuroKit2</strong> (<a href="https://martager.github.io/bbsig/ppg-preprocessing/#3-ppg-peaks-detection">Sect. 3</a>): performs automated artifact correction of the PPG systolic peaks using NeuroKit2's <code>ppg_peaks()</code> function.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>correct_artifacts_sys</code></strong> (bool) <br><strong><code>iterations = 1</code></strong> (numeric)</td>
+<td style="text-align: left;"><strong>PPG automated artifact correction by Systole</strong> (<a href="https://martager.github.io/bbsig/ppg-preprocessing/#3-ppg-peaks-detection">Sect. 3</a>): performs automated artifact correction of the PPG systolic peaks using Systole's <code>correct_peaks()</code> and stores details regarding each type of artifact from RR intervals ("ectopic", "short", "long", "missed", "extra"). The number of detection-correction iterations can be set using the <code>iterations</code> variable (defaults to <code>1</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>interactive_ppg_plot</code></strong> (bool) <br><strong><code>participant_plots = []</code></strong> (list)</td>
+<td style="text-align: left;"><strong>Interactive plots of PPG signal with peaks or sub-spaces with artifacts</strong> (<a href="https://martager.github.io/bbsig/ppg-preprocessing/#4-optional-interactive-visualization">Sect. 4</a>): displays an interactive visualization of the continuous PPG signal with systolic peaks and instantaneous HR, as well as interactive sub-spaces plots to identify artifacts. The participant IDs to-be-plotted can be specified in the list <code>participant_plots = []</code>; if left empty, all participants plots will be shown.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>manual_correct</code></strong> (bool) <br><strong><code>participant_manual = []</code></strong> (list)</td>
+<td style="text-align: left;"><strong>(Optional) manual correction of PPG systolic peaks</strong> (<a href="https://martager.github.io/bbsig/ppg-preprocessing/#5-manual-ppg-peaks-correction">Sect. 5</a>): activates UI for manual correction of extra peaks, missed peaks and/or falsely detected peaks, using Systole's <code>Editor</code>. The UI can also be used to annotate bad segments. Saves a JSON file with the corrected peaks and bad segments. It is recommended to run this section one participant at a time, by specifying the desired ID under <code>participant_manual = []</code> each time.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>hr_interpol</code></strong> (bool)</td>
+<td style="text-align: left;"><strong>Save HR interpolation</strong> (<a href="https://martager.github.io/bbsig/ppg-preprocessing/#6-data-output">Sect. 6</a>): exports interpolated heart rate (HR) values in BPM, using Systole's <code>utils.heart_rate()</code>, as TSV file with same sampling rate as original recording.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="1-data-import-and-conversion"><strong>1. Data import and conversion</strong><a class="headerlink" href="#1-data-import-and-conversion" title="Permanent link">#</a></h2>
+<p>This section imports the physiological data and metadata from the <code>_physio.tsv.gz</code> and sidecar <code>_physio.json</code> files and extracts the raw PPG data as a numpy array (<code>ppg_raw</code>). This array is added to a dictionary (<code>ppg_dict</code>) where the data is organized by participant. In detail:</p>
+<ul>
+<li><strong>Define participants and BIDS file paths</strong>: first, the user specifies the participant ID(s) in the <code>participant_ids</code> list. If <code>participant_ids</code> is empty, the script automatically includes all participants in the main directory of BIDS-compliant raw data storage (<code>wd</code>). The user must specify the root directory of BIDS-compliant raw data storage (<code>wd</code>), as well as the mandatory (i.e., task label, datatype) and optional (i.e. session label) BIDS entities (in the format <code>task-&lt;label&gt;</code>, <code>&lt;datatype&gt;</code> and <code>ses-&lt;label&gt;</code>, respectively). These will be used to create a base filename according to BIDS conventions (e.g., <code>sub-&lt;ID&gt;{_ses-&lt;label&gt;}_task-&lt;label&gt;</code>) and a base BIDS directory including subject, session (optional) and datatype (e.g., <code>'sub-&lt;ID&gt;/[ses-&lt;label&gt;/]&lt;datatype&gt;/'</code>). </li>
+<li><strong>Check for <code>_physio.tsv.gz</code> and <code>_physio.json</code> file existence</strong>: ensures the raw PPG signal and metadata exist for each participant. If either file is missing, the participant is skipped with a warning message.</li>
+<li><strong>Extract and parse metadata</strong>: read the JSON file to extract key information, including sampling frequency (saved as <code>sfreq</code>) and column names used to recognize the PPG data column when reading the TSV.GZ file (expects a column named <code>ppg</code>). Additionally reads and decompresses the TSV.GZ file into a pandas DataFrame (<code>physio_df</code>) using the extracted column names.</li>
+<li><strong>Organize PPG data into a dictionary</strong>: the following data from each participant is stored in a dictionary (<code>ppg_dict</code>) with the participant IDs (<code>sub-&lt;label&gt;</code>) as keys: <ul>
+<li><code>bids_base_filename</code>: the base PPG filename in BIDS format. </li>
+<li><code>bids_base_directory</code>: the base BIDS-compliant folder structure with or without session entity, i.e., <code>'sub-&lt;ID&gt;/{ses-&lt;label&gt;}/&lt;datatype&gt;/'</code>. </li>
+<li><code>ppg_raw</code>: the raw PPG signal stored as an array.</li>
+<li><code>sfreq</code>: the sampling frequency of the PPG recording.</li>
+</ul>
+</li>
+<li><strong>Define the derivatives path for PPG preprocessed data storage</strong>: defines and creates the directory for storing the PPG preprocessed data, i.e., <code>derivatives/ppg-preproc/sub-&lt;ID&gt;/...</code>. </li>
+</ul>
+<p>Please keep in mind that data import parameters must be adapted if your data or folder structure are not BIDS-compliant (check how in the <a href="https://martager.github.io/bbsig/bids-structure/">Organize your BIDS folders</a> section).</p>
+<details class="note" open="open">
+<summary>Which BIDS entities should be specified for data import?</summary>
+<p>This is what the setup of mandatory and optional BIDS entities could look like when loading the physio data files for two participants, <code>sub-201</code> and <code>sub-202</code>, called <code>sub-&lt;ID&gt;_ses-01_task-BBSIG_physio.tsv.gz</code>, with one session each (<code>ses-01</code>) and datatype <code>beh</code>, stored in the following BIDS-compliant raw data structure <code>C:\YourBIDSFolder\sub-&lt;ID&gt;\ses-01\beh\…</code>. If <code>participant_ids = []</code>, all participant IDs in the raw data folder would be included instead. </p>
+<p><div class="language-py highlight"><pre><span></span><code><span id="__span-1-1"><span class="c1"># Set participant IDs</span>
+</span><span id="__span-1-2"><span class="c1"># If set to an empty list &#39;[]&#39;, it will process all participants in the directory</span>
+</span><span id="__span-1-3"><span class="n">participant_ids</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;201&#39;</span><span class="p">,</span> <span class="s1">&#39;202&#39;</span><span class="p">]</span>  <span class="c1"># Adjust as needed: each item should correspond to &lt;ID&gt; of &#39;sub-&lt;ID&gt;&#39; in BIDS format; otherwise, leave empty for all</span>
+</span><span id="__span-1-4">
+</span><span id="__span-1-5"><span class="c1"># Specify the main directory of data storage (containing BIDS-compliant raw data)</span>
+</span><span id="__span-1-6"><span class="n">wd</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;C:\YourBIDSFolder&#39;</span>  <span class="c1"># change with the directory of data storage</span>
+</span><span id="__span-1-7">
+</span><span id="__span-1-8"><span class="c1"># Mandatory: BIDS entities (task, datatype)</span>
+</span><span id="__span-1-9"><span class="n">task_name</span> <span class="o">=</span> <span class="s1">&#39;BBSIG&#39;</span>       <span class="c1"># &lt;label&gt; of &#39;task-&lt;label&gt;&#39; used for file naming in BIDS format</span>
+</span><span id="__span-1-10"><span class="n">datatype_name</span> <span class="o">=</span> <span class="s1">&#39;beh&#39;</span>     <span class="c1"># datatype used for corresponding directory in BIDS format (e.g., &#39;beh&#39;, &#39;eeg&#39;, &#39;func&#39;)</span>
+</span><span id="__span-1-11"><span class="n">physio_name</span> <span class="o">=</span> <span class="s1">&#39;physio&#39;</span>    <span class="c1"># physio data specification in BIDS format</span>
+</span><span id="__span-1-12">
+</span><span id="__span-1-13"><span class="c1"># Optional: BIDS entities (session)</span>
+</span><span id="__span-1-14"><span class="n">session_idx</span> <span class="o">=</span> <span class="s1">&#39;01&#39;</span>     <span class="c1"># &lt;label&gt; of &#39;ses-&lt;label&gt;&#39; in BIDS format, if available; otherwise, set to None</span>
+</span></code></pre></div>
+Moreover, if you have additional BIDS entities (e.g., <code>'run-&lt;label&gt;'</code> or <code>'recording-&lt;label&gt;'</code>), you can easily add them by changing the <code>bids_base_fname</code> variable, as this will only impact file naming but not folder structure. This base BIDS filename will be inherited by all data import and export functions. You can read more about mandatory and optional entities in our <a href="https://martager.github.io/bbsig/bids-structure/#the-bids-folder-structure">short BIDS glossary</a>.  </p>
+<div class="language-py highlight"><pre><span></span><code><span id="__span-2-1"><span class="c1"># If you have additional BIDS entities (e.g., &#39;run&#39; or &#39;recording&#39;) you can change the bids_base_fname variable accordingly</span>
+</span><span id="__span-2-2"><span class="n">bids_base_fname</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">subj_id</span><span class="si">}</span><span class="s1">_ses-</span><span class="si">{</span><span class="n">session_idx</span><span class="si">}</span><span class="s1">_task-</span><span class="si">{</span><span class="n">task_name</span><span class="si">}</span><span class="s1">_run-</span><span class="si">{</span><span class="n">run_idx</span><span class="si">}</span><span class="s1">_recording-</span><span class="si">{</span><span class="n">rec_name</span><span class="si">}</span><span class="s1">&#39;</span> 
+</span></code></pre></div>
+</details>
+<p>The main output from this section is a dictionary, <code>ppg_dict</code>, which includes the raw PPG signal (<code>ppg_raw</code>) and the sampling frequency <code>sfreq</code> for each participant (n.b., this is especially important if different sampling frequencies were used for different participants). This dictionary is the basis of our PPG preprocessing. </p>
+<p>Example structure of <code>ppg_dict</code>: 
+<div class="language-py highlight"><pre><span></span><code><span id="__span-3-1"><span class="p">{</span>
+</span><span id="__span-3-2">    <span class="s1">&#39;sub-201&#39;</span><span class="p">:</span> <span class="p">{</span>
+</span><span id="__span-3-3">        <span class="s1">&#39;bids_base_filename&#39;</span><span class="p">:</span> <span class="s1">&#39;sub-201_ses-01_task-BBSIG&#39;</span><span class="p">,</span>
+</span><span id="__span-3-4">        <span class="s1">&#39;bids_base_directory&#39;</span><span class="p">:</span> <span class="s1">&#39;sub-201/ses-01/beh/&#39;</span><span class="p">,</span> 
+</span><span id="__span-3-5">        <span class="s1">&#39;ppg_raw&#39;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">107070.39</span><span class="p">,</span> <span class="o">-</span><span class="mf">106860.4</span> <span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="o">-</span><span class="mf">111120.33</span><span class="p">,</span> <span class="o">-</span><span class="mf">111090.33</span><span class="p">]),</span>
+</span><span id="__span-3-6">        <span class="s1">&#39;sfreq&#39;</span><span class="p">:</span> <span class="mi">1000</span>
+</span><span id="__span-3-7">    <span class="p">},</span>
+</span><span id="__span-3-8">    <span class="s1">&#39;sub-202&#39;</span><span class="p">:</span> <span class="p">{</span>
+</span><span id="__span-3-9">        <span class="s1">&#39;bids_base_filename&#39;</span><span class="p">:</span> <span class="s1">&#39;sub-202_ses-01_task-BBSIG&#39;</span><span class="p">,</span>
+</span><span id="__span-3-10">        <span class="s1">&#39;bids_base_directory&#39;</span><span class="p">:</span> <span class="s1">&#39;sub-202/ses-01/beh/&#39;</span><span class="p">,</span> 
+</span><span id="__span-3-11">        <span class="s1">&#39;ppg_raw&#39;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">112780.31</span><span class="p">,</span> <span class="o">-</span><span class="mf">112830.31</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="o">-</span><span class="mf">107320.39</span><span class="p">,</span> <span class="o">-</span><span class="mf">107370.39</span><span class="p">]),</span>
+</span><span id="__span-3-12">        <span class="s1">&#39;sfreq&#39;</span><span class="p">:</span> <span class="mi">500</span>
+</span><span id="__span-3-13">    <span class="p">},</span>
+</span><span id="__span-3-14">    <span class="o">...</span>
+</span><span id="__span-3-15"><span class="p">}</span>
+</span></code></pre></div></p>
+<h2 id="2-optional-ppg-normalization-filtering-clipping-artifact-correction"><strong>2. (Optional) PPG normalization, filtering &amp; clipping artifact correction</strong><a class="headerlink" href="#2-optional-ppg-normalization-filtering-clipping-artifact-correction" title="Permanent link">#</a></h2>
+<p>This section includes a series of optional preprocessing steps for PPG signal correction and cleaning. In detail: </p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>If none of these preprocessing steps in <a href="https://martager.github.io/bbsig/ppg-preprocessing/#2-optional-ppg-normalization-filtering-clipping-artifact-correction">Sect. 2</a> are enabled, all the subsequent sections will rely on the raw PPG signal (<code>ppg_raw</code>) instead. Otherwise, subsequent sections will be executed in order of preference using the <code>ppg_clipping_clean</code>, <code>ppg_filt</code> and <code>ppg_norm</code> signal.  </p>
+</div>
+<h3 id="2a-ppg-normalization">2a. PPG normalization<a class="headerlink" href="#2a-ppg-normalization" title="Permanent link">#</a></h3>
+<p>If the variable <code>ppg_normalize</code> is set to <code>True</code> in the optional pipeline steps (see settings above - defaults to <code>True</code>), this part of the code will:</p>
+<ul>
+<li>Define a custom function to <strong>normalize the PPG signal between -1 and 1</strong>. </li>
+<li>Perform the normalization for all participants in <code>ppg_dict</code> and store the normalized PPG signal under the <code>ppg_norm</code> key.  </li>
+</ul>
+<p>The PPG normalization step ensures consistency and <strong>removes baseline fluctuations</strong>, particularly useful for visualization and comparison across participants.</p>
+<div class="language-py highlight"><pre><span></span><code><span id="__span-4-1"><span class="c1"># Define custom function to normalize the PPG signal between -1 and 1</span>
+</span><span id="__span-4-2"><span class="k">def</span><span class="w"> </span><span class="nf">normalize_ppg_signal</span><span class="p">(</span><span class="n">ppg_signal</span><span class="p">):</span>
+</span><span id="__span-4-3">
+</span><span id="__span-4-4">    <span class="c1"># Get min and max values from PPG signal</span>
+</span><span id="__span-4-5">    <span class="n">ppg_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">ppg_signal</span><span class="p">)</span>
+</span><span id="__span-4-6">    <span class="n">ppg_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">ppg_signal</span><span class="p">)</span>
+</span><span id="__span-4-7">
+</span><span id="__span-4-8">    <span class="c1"># Perform the normalization between -1 and 1</span>
+</span><span id="__span-4-9">    <span class="n">ppg_norm</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">((</span><span class="n">ppg_signal</span> <span class="o">-</span> <span class="n">ppg_min</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">ppg_max</span> <span class="o">-</span> <span class="n">ppg_min</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span>
+</span><span id="__span-4-10">
+</span><span id="__span-4-11">    <span class="k">return</span> <span class="n">ppg_norm</span>
+</span></code></pre></div>
+<p>Example of the updated <code>ppg_dict</code> for a given participant after running this normalization step:
+<div class="language-py highlight"><pre><span></span><code><span id="__span-5-1"><span class="p">{</span><span class="s1">&#39;sub-201&#39;</span><span class="p">:</span> <span class="p">{</span>
+</span><span id="__span-5-2">    <span class="s1">&#39;bids_base_filename&#39;</span><span class="p">:</span> <span class="s1">&#39;sub-201_ses-01_task-BBSIG&#39;</span><span class="p">,</span>
+</span><span id="__span-5-3">    <span class="s1">&#39;bids_base_directory&#39;</span><span class="p">:</span> <span class="s1">&#39;sub-201/ses-01/beh/&#39;</span><span class="p">,</span> 
+</span><span id="__span-5-4">    <span class="s1">&#39;ppg_raw&#39;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">107070.39</span><span class="p">,</span> <span class="o">-</span><span class="mf">106860.4</span> <span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="o">-</span><span class="mf">111120.33</span><span class="p">,</span> <span class="o">-</span><span class="mf">111090.33</span><span class="p">]),</span>
+</span><span id="__span-5-5">    <span class="s1">&#39;sfreq&#39;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span> 
+</span><span id="__span-5-6">    <span class="s1">&#39;ppg_norm&#39;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.61267495</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.60951383</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.67364141</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.6731898</span><span class="p">])</span>
+</span><span id="__span-5-7">    <span class="p">},</span>
+</span><span id="__span-5-8">    <span class="o">...</span><span class="p">}</span>
+</span></code></pre></div></p>
+<h3 id="2b-ppg-filtering">2b. PPG filtering<a class="headerlink" href="#2b-ppg-filtering" title="Permanent link">#</a></h3>
+<p>If the variable <code>ppg_filter</code> is set to <code>True</code> in the optional pipeline steps (see settings above - defaults to <code>True</code>), this part of the code will:</p>
+<ul>
+<li>Apply filtering to the PPG signal of each participant using NeuroKit2's <a href="https://neuropsychology.github.io/NeuroKit/functions/ppg.html#ppg-clean"><code>nk.ppg_clean()</code></a> function. The <strong>filtering method defaults to <code>elgendi</code></strong>, as recommended for general-purpose preprocessing.</li>
+<li>Store the filtered signal for each participant in <code>ppg_dict()</code> under the <code>ppg_filt</code> key.</li>
+</ul>
+<p>If <code>ppg_filter</code> is set to <code>False</code>, subsequent steps will rely on the raw or normalized signal (<code>ppg_norm</code>) instead. </p>
+<p>Example of the updated <code>ppg_dict</code> for a given participant after running this filtering step:
+<div class="language-py highlight"><pre><span></span><code><span id="__span-6-1"><span class="p">{</span><span class="s1">&#39;sub-201&#39;</span><span class="p">:</span> <span class="p">{</span>
+</span><span id="__span-6-2">    <span class="s1">&#39;bids_base_filename&#39;</span><span class="p">:</span> <span class="s1">&#39;sub-201_ses-01_task-BBSIG&#39;</span><span class="p">,</span>
+</span><span id="__span-6-3">    <span class="s1">&#39;bids_base_directory&#39;</span><span class="p">:</span> <span class="s1">&#39;sub-201/ses-01/beh/&#39;</span><span class="p">,</span> 
+</span><span id="__span-6-4">    <span class="s1">&#39;ppg_raw&#39;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">107070.39</span><span class="p">,</span> <span class="o">-</span><span class="mf">106860.4</span> <span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="o">-</span><span class="mf">111120.33</span><span class="p">,</span> <span class="o">-</span><span class="mf">111090.33</span><span class="p">]),</span>
+</span><span id="__span-6-5">    <span class="s1">&#39;sfreq&#39;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span> 
+</span><span id="__span-6-6">    <span class="s1">&#39;ppg_norm&#39;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.61267495</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.60951383</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.67364141</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.6731898</span><span class="p">]),</span>
+</span><span id="__span-6-7">    <span class="s1">&#39;ppg_filt&#39;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span> <span class="mf">0.02183344</span><span class="p">,</span>  <span class="mf">0.02273415</span><span class="p">,</span>  <span class="o">...</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.00014027</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.00011864</span><span class="p">])</span>
+</span><span id="__span-6-8">    <span class="p">},</span>
+</span><span id="__span-6-9">    <span class="o">...</span><span class="p">}</span>
+</span></code></pre></div></p>
+<p>For reference, this is how the normalized PPG signal before filtering (blue; corresponding to <code>ppg_norm</code>) compares to the cleaned PPG signal after filtering (orange; corresponding to <code>ppg_filt</code>) using the <code>‘elgendi’</code> method:</p>
+<p><img alt="PPG filtered vs. raw" src="../assets/images/ppg_filter.png" /></p>
+<h3 id="2c-ppg-clipping-artifact-detection-and-interpolation">2c. PPG clipping artifact detection and interpolation<a class="headerlink" href="#2c-ppg-clipping-artifact-detection-and-interpolation" title="Permanent link">#</a></h3>
+<p>If the variable <code>clip_artifacts_correct</code> is set to <code>True</code> in the optional pipeline steps (see settings above), this part of the code will:</p>
+<ul>
+<li><strong>Detect clipping artifacts</strong> at a minimum and/or maximum threshold using Systole's <a href="https://embodied-computation-group.github.io/systole/generated/utils/systole.utils.find_clipping.html"><code>find_clipping()</code></a> function.</li>
+<li><strong>Interpolate over the detected artifacts</strong> with <a href="https://embodied-computation-group.github.io/systole/generated/detection/systole.detection.interpolate_clipping.html"><code>interpolate_clipping</code></a>, using cubic interpolation by default. </li>
+<li>Save the corrected PPG signal under the <code>ppg_clipping_clean</code> key in <code>ppg_dict</code>. If clipping artifacts are detected and interpolated for a given participant, this information will be stored under the key <code>ppg_clipping_interpolation</code> as <code>True</code>. </li>
+</ul>
+<details class="hint">
+<summary>Unsure whether your PPG signal contains clipping artifacts?</summary>
+<p>If your are unsure whether your PPG signal contains clipping artifacts, we recommend setting <code>clip_artifacts_correct</code> to <code>True</code> and running this section, as it will automatically detect participants that have clipping artifacts and correct them.</p>
+<p>For comparison, below is an example what a PPG signal could look like with an artificial clipping artifact at a maximum threshold of 0.8, before (orange) and after (blue; corresponding to <code>ppg_clipping_clean</code>) applying the clipping artifact interpolation using Systole’s <code>interpolate_clipping()</code> with cubic interpolation. In this case, the key <code>ppg_clipping_interpolation</code> will be reported as <code>True</code>. </p>
+<p><img alt="PPG clipping cleaned" src="../assets/images/ppg_clipping_corrected.png" /></p>
+</details>
+<p>If <code>clip_artifacts_correct</code> is set to <code>False</code>, subsequent steps will rely on the raw,  normalized (<code>ppg_norm</code>) or filtered (<code>ppg_filt</code>) signal instead. Here is an example of how the updated <code>ppg_dict</code> for a given participant would look like after running the clipping artifact correction, including whether the correction was performed on a given participant: </p>
+<div class="language-py highlight"><pre><span></span><code><span id="__span-7-1"><span class="p">{</span><span class="s1">&#39;sub-201&#39;</span><span class="p">:</span> <span class="p">{</span>
+</span><span id="__span-7-2">    <span class="s1">&#39;bids_base_filename&#39;</span><span class="p">:</span> <span class="s1">&#39;sub-201_ses-01_task-BBSIG&#39;</span><span class="p">,</span>
+</span><span id="__span-7-3">    <span class="s1">&#39;bids_base_directory&#39;</span><span class="p">:</span> <span class="s1">&#39;sub-201/ses-01/beh/&#39;</span><span class="p">,</span> 
+</span><span id="__span-7-4">    <span class="s1">&#39;ppg_raw&#39;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">107070.39</span><span class="p">,</span> <span class="o">-</span><span class="mf">106860.4</span> <span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="o">-</span><span class="mf">111120.33</span><span class="p">,</span> <span class="o">-</span><span class="mf">111090.33</span><span class="p">]),</span>
+</span><span id="__span-7-5">    <span class="s1">&#39;sfreq&#39;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span> 
+</span><span id="__span-7-6">    <span class="s1">&#39;ppg_norm&#39;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.61267495</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.60951383</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.67364141</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.6731898</span><span class="p">]),</span>
+</span><span id="__span-7-7">    <span class="s1">&#39;ppg_filt&#39;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span> <span class="mf">0.02183344</span><span class="p">,</span>  <span class="mf">0.02273415</span><span class="p">,</span>  <span class="o">...</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.00014027</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.00011864</span><span class="p">]),</span>
+</span><span id="__span-7-8">    <span class="s1">&#39;ppg_clipping_clean&#39;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span> <span class="mf">0.02183344</span><span class="p">,</span>  <span class="mf">0.02273415</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.00014027</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.00011864</span><span class="p">]),</span>
+</span><span id="__span-7-9">    <span class="s1">&#39;ppg_clipping_corrected&#39;</span><span class="p">:</span> <span class="s1">&#39;False&#39;</span>
+</span><span id="__span-7-10">    <span class="p">},</span>
+</span><span id="__span-7-11">    <span class="o">...</span><span class="p">}</span>
+</span></code></pre></div>
+<h2 id="3-ppg-peak-detection"><strong>3. PPG peak detection</strong><a class="headerlink" href="#3-ppg-peak-detection" title="Permanent link">#</a></h2>
+<p>This section performs <strong>systolic peak detection</strong> on the provided PPG signal and <strong>optionally applies automated correction</strong>, based on the chosen method. In detail, this section: </p>
+<ul>
+<li>Defines a custom function <code>detect_ppg_peaks()</code> for detecting systolic peaks using NeuroKit2's <a href="https://neuropsychology.github.io/NeuroKit/functions/ppg.html#ppg-peaks"><code>ppg_peaks()</code></a> with the default method <code>'elgendi'</code> (for best results, this method expects the filtered PPG signal, so make sure that <code>ppg_filter</code> is set to <code>True</code> to execute <a href="https://martager.github.io/bbsig/ppg-preprocessing/#2b-ppg-filtering">Sect. 2b</a>). Alternatively, PPG peaks detection can be implemented using the method <code>'bishop'</code> (suitable only for short time-windows and low sampling frequency e.g., 5 seconds and 100 Hz). </li>
+<li>Store the indices of the uncorrected systolic peaks in the <code>'ppg_peaks_info'</code> dictionary as <code>'PPG_Peaks_Uncorrected'</code>. </li>
+<li>Optionally, implement two complementary methods for artifact correction: <ul>
+<li>If <code>correct_artifacts_nk</code> is set to <code>True</code>, it enables artifact correction by Systole or by the automated artifact correction built in to NeuroKit2’s <a href="https://neuropsychology.github.io/NeuroKit/functions/ppg.html#ppg-peaks"><code>ppg_peaks()</code></a> function.</li>
+<li>If <code>correct_artifacts_sys</code> is set to <code>True</code>, it enables artifact correction with Systole's <a href="https://embodied-computation-group.github.io/systole/generated/correction/systole.correction.correct_peaks.html"><code>correct_peaks()</code></a>, which is based on the detection of RR-interval abnormalities. The detection-correction process will be repeated as many times as specified by the <code>iterations</code> variable (see settings above; defaults to 1). The indices of the uncorrected artifact types, as well as the number of extra and missed peaks corrected with this method, will be saved in the 'info' dictionary. </li>
+</ul>
+</li>
+</ul>
+<p>Example usage of the custom <code>detect_ppg_peaks()</code> function: 
+<div class="language-py highlight"><pre><span></span><code><span id="__span-8-1"><span class="n">detect_ppg_peaks</span><span class="p">(</span><span class="n">signal</span><span class="o">=</span><span class="n">ppg_signal</span><span class="p">,</span> 
+</span><span id="__span-8-2">                 <span class="n">sfreq</span><span class="o">=</span><span class="n">sfreq</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;elgendi&#39;</span><span class="p">,</span> 
+</span><span id="__span-8-3">                 <span class="n">correct_artifacts_nk</span><span class="o">=</span><span class="n">correct_artifacts_nk</span><span class="p">,</span>    <span class="c1"># default = True</span>
+</span><span id="__span-8-4">                 <span class="n">correct_artifacts_sys</span><span class="o">=</span><span class="n">correct_artifacts_sys</span><span class="p">,</span>  <span class="c1"># default = True</span>
+</span><span id="__span-8-5">                 <span class="n">n_iterations</span><span class="o">=</span><span class="n">iterations</span><span class="p">)</span> <span class="c1"># default = 1</span>
+</span></code></pre></div></p>
+<p>This function returns a dictionary with:</p>
+<ul>
+<li><code>ppg_peaks_idx</code>: indices of detected PPG systolic peaks.</li>
+<li><code>ppg_peaks_bool</code>: boolean array indicating the presence of PPG systolic peaks, with same length as original PPG recording.</li>
+<li><code>ppg_peaks_info</code>: dictionary containing metadata, including:<ul>
+<li>The peak detection method used (<code>method_peaks</code>).</li>
+<li>The automated artifact correction method(s) used (<code>peaks_correction_neurokit</code> and/or <code>peaks_correction_systole</code>).</li>
+<li>The indices of artifacts (e.g., missed, extra, ectopic beats) detected before correction (<code>{artifacttype}_idx_uncorr</code>).</li>
+<li>The number of missed/extra beats corrected, if applicable (<code>info_correction_systole</code>).</li>
+</ul>
+</li>
+</ul>
+<p>This dictionary containing the detected PPG peaks and their metadata is then appended to <code>ppg_dict</code>, as shown in the example below: 
+<div class="language-py highlight"><pre><span></span><code><span id="__span-9-1"><span class="p">{</span><span class="s1">&#39;sub-01&#39;</span><span class="p">:</span> 
+</span><span id="__span-9-2">       <span class="p">{</span><span class="s1">&#39;ppg_raw&#39;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span> <span class="o">-</span><span class="mf">107070.39</span><span class="p">,</span> <span class="o">-</span><span class="mf">106860.4</span> <span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="o">-</span><span class="mf">111120.33</span><span class="p">,</span> <span class="o">-</span><span class="mf">111090.33</span><span class="p">]),</span>
+</span><span id="__span-9-3">        <span class="s1">&#39;sfreq&#39;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span> 
+</span><span id="__span-9-4">        <span class="s1">&#39;ppg_norm&#39;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span> <span class="o">-</span><span class="mf">0.61267495</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.60951383</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.67364141</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.6731898</span><span class="p">]),</span>
+</span><span id="__span-9-5">        <span class="s1">&#39;ppg_filt&#39;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span> <span class="mf">0.02183344</span><span class="p">,</span>  <span class="mf">0.02273415</span><span class="p">,</span>  <span class="o">...</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.00014027</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.00011864</span><span class="p">]),</span>
+</span><span id="__span-9-6">        <span class="s1">&#39;ppg_clipping_clean&#39;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span> <span class="mf">0.02183344</span><span class="p">,</span>  <span class="mf">0.02273415</span><span class="p">,</span>  <span class="o">...</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.00014027</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.00011864</span><span class="p">]),</span>
+</span><span id="__span-9-7">        <span class="s1">&#39;ppg_clipping_corrected&#39;</span><span class="p">:</span> <span class="s1">&#39;False&#39;</span><span class="p">,</span>
+</span><span id="__span-9-8">        <span class="s1">&#39;ppg_peaks_bool&#39;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span>
+</span><span id="__span-9-9">        <span class="s1">&#39;ppg_peaks_idx&#39;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span> <span class="mi">741</span><span class="p">,</span> <span class="mi">1793</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mi">917909</span><span class="p">,</span> <span class="mi">918931</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">int64</span><span class="p">),</span>
+</span><span id="__span-9-10">        <span class="s1">&#39;ppg_peaks_info&#39;</span><span class="p">:</span> 
+</span><span id="__span-9-11">                    <span class="p">{</span><span class="s1">&#39;method_peaks&#39;</span><span class="p">:</span> <span class="s1">&#39;elgendi&#39;</span><span class="p">,</span>
+</span><span id="__span-9-12">                    <span class="s1">&#39;peaks_correction_neurokit&#39;</span><span class="p">:</span> <span class="s1">&#39;True&#39;</span><span class="p">,</span>
+</span><span id="__span-9-13">                    <span class="s1">&#39;peaks_correction_systole&#39;</span><span class="p">:</span> <span class="s1">&#39;True&#39;</span><span class="p">,</span>
+</span><span id="__span-9-14">                    <span class="s1">&#39;PPG_Peaks_Uncorrected&#39;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span> <span class="mi">741</span><span class="p">,</span> <span class="mi">1793</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mi">917909</span><span class="p">,</span> <span class="mi">918931</span><span class="p">]),</span>
+</span><span id="__span-9-15">                    <span class="s1">&#39;ectopic_idx_uncorr&#39;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span> <span class="mi">94</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mi">886</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">int64</span><span class="p">),</span>
+</span><span id="__span-9-16">                    <span class="s1">&#39;long_idx_uncorr&#39;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span> <span class="mi">174</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">int64</span><span class="p">),</span>
+</span><span id="__span-9-17">                    <span class="s1">&#39;short_idx_uncorr&#39;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span> <span class="mi">91</span><span class="p">,</span> <span class="mi">309</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">int64</span><span class="p">),</span>
+</span><span id="__span-9-18">                    <span class="s1">&#39;extra_idx_uncorr&#39;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span> <span class="mi">90</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mi">848</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">int64</span><span class="p">),</span>
+</span><span id="__span-9-19">                    <span class="s1">&#39;missed_idx_uncorr&#39;</span><span class="p">:</span> <span class="n">array</span><span class="p">([],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">int64</span><span class="p">),</span>
+</span><span id="__span-9-20">                    <span class="s1">&#39;info_correction_systole&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;extra&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;missed&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}}</span>
+</span><span id="__span-9-21">        <span class="p">},</span>
+</span><span id="__span-9-22">    <span class="o">...</span>
+</span><span id="__span-9-23"><span class="p">}</span>
+</span></code></pre></div></p>
+<h2 id="4-optional-interactive-visualization"><strong>4. (Optional) interactive visualization</strong><a class="headerlink" href="#4-optional-interactive-visualization" title="Permanent link">#</a></h2>
+<p>If <code>interactive_ppg_plot</code> is set to <code>True</code>, this section provides two complementary types of interactive visualization of the PPG signal, using Systole's <a href="https://embodied-computation-group.github.io/systole/generated/plots/systole.plots.plot_raw.html"><code>plot_raw()</code></a> and <a href="https://embodied-computation-group.github.io/systole/generated/plots/systole.plots.plot_subspaces.html"><code>plot_subspaces()</code></a> functions. If <code>plot_within_notebook</code> is set to <code>True</code>, the interactive plots for all participants will be rendered within the notebook using Bokeh as the backend, otherwise each plot will be opened as separate HTML file in the browser (note that this is the recommended option when processing many participants at a time). In detail: </p>
+<ul>
+<li><strong>4a. Interactive plot of PPG signal and systolic peaks</strong>: display an interactive plots of PPG signal over time with systolic peaks and instantaneous heart rate using Systole's <a href="https://embodied-computation-group.github.io/systole/generated/plots/systole.plots.plot_raw.html"><code>plot_raw()</code></a>. </li>
+<li><strong>4b. Interactive plot of subspaces</strong>: display an interactive visualization of PPG subspaces plots, including short/long intervals and ectopic beats using Systole's <a href="https://embodied-computation-group.github.io/systole/generated/plots/systole.plots.plot_subspaces.html"><code>plot_subspaces()</code></a>, based on the artifact detection method described in Lipponen &amp; Tarvainen (2019).</li>
+</ul>
+<h3 id="4a-interactive-plot-of-ppg-signal-and-systolic-peaks">4a. Interactive plot of PPG signal and systolic peaks<a class="headerlink" href="#4a-interactive-plot-of-ppg-signal-and-systolic-peaks" title="Permanent link">#</a></h3>
+<p>The interactive visualization of the PPG signal with systolic peaks and/or the instantaneous heart rate is provided by Systole’s <a href="https://embodied-computation-group.github.io/systole/generated/plots/systole.plots.plot_raw.html"><code>plot_raw()</code></a> function. </p>
+<p>Running this section will either plot within the notebook or open an HTML file that looks like this:</p>
+<p><img alt="PPG interactive plot 1" src="../assets/images/ppg_interactive1.png" /></p>
+<p><img alt="PPG interactive plot 2" src="../assets/images/ppg_interactive2.png" /></p>
+<h3 id="4b-interactive-plot-of-subspaces">4b. Interactive plot of subspaces<a class="headerlink" href="#4b-interactive-plot-of-subspaces" title="Permanent link">#</a></h3>
+<p>Similarly, if the interactive visualization is enabled, subspace plots are created using Systole’s <a href="https://embodied-computation-group.github.io/systole/generated/plots/systole.plots.plot_subspaces.html"><code>plot_subspaces()</code></a> to allow the identification of artifacts, including short/long intervals and ectopic beats, based on the artifact detection method described in Lipponen &amp; Tarvainen (2019). </p>
+<p>Running this section will either plot within the notebook or open an HTML file that looks like this: </p>
+<p><img alt="PPG subspaces" src="../assets/images/ppg_subspaces.png" /></p>
+<h2 id="5-manual-ppg-peaks-correction"><strong>5. Manual PPG peaks correction</strong><a class="headerlink" href="#5-manual-ppg-peaks-correction" title="Permanent link">#</a></h2>
+<h3 id="5a-manual-ppg-peaks-correction-interactive-plot">5a. Manual PPG peaks correction: interactive plot<a class="headerlink" href="#5a-manual-ppg-peaks-correction-interactive-plot" title="Permanent link">#</a></h3>
+<p>If enabled via <code>manual_correct</code>, this section triggers the <strong>interactive manual correction of PPG systolic peak locations and identification of noisy segments in the PPG signal</strong> using Systole's <code>Editor</code>. Both the raw PPG signal and the instantaneous heart rate are plotted to check for artifacts (e.g., long/short beats, ectopic beats). This interactive plot features a "Correction" mode for deleting peaks or adding them at the local maxima within selected segments, and a "Rejection" mode for marking selected segments as 'bad'. </p>
+<p>This is what the UI for manual peak correction looks like when importing your clean PPG signal and systolic peak locations: </p>
+<p><img alt="PPG manualcorr" src="../assets/images/ppg_manualcorr.png" /></p>
+<p>You can use the tools on the left side to zoom into the signal, scroll along the time axis, or go the previous or next visualization step. </p>
+<ul>
+<li>With <strong>Correction mode</strong> selected:<ul>
+<li>Click and drag the <em>left mouse button</em> to select a segment where all the peaks should be removed.</li>
+<li>Click and drag the <em>right mouse button</em> to select a segment where a peak will be added at the local maximum.</li>
+</ul>
+</li>
+<li>With <strong>Rejection mode</strong> selected:<ul>
+<li>Click and drag the <em>right mouse button</em> to select a segment that should be marked as a bad segment. This will be saved as a pair of indices indicating the onset and offset of the bad segment. </li>
+</ul>
+</li>
+</ul>
+<p>You can read more about how manual correction works in the Systole official documentation: <a href="https://embodied-computation-group.github.io/systole/notebooks/6-WorkingWithBIDSFolders.html#using-the-editor-to-inspect-raw-signal">Working with BIDS folders - Using the Editor to inspect raw signal</a>. </p>
+<p>It is recommended to <strong>perform manual correction one participant at a time</strong>, by specifying the desired participant ID in the list <code>participants_manual = []</code>. Once you are done with manual correction for one participant and have saved the corresponding JSON file by running <a href="https://martager.github.io/bbsig/ppg-preprocessing/#5b-manual-ppg-peaks-correction-data-saving">Sect. 5b</a>, you can change the participant ID and re-run the entire manual correction section again. Note that, after manually correcting a few participants, the interactive plot might become laggy or freeze, so you might want to run the entire preprocessing pipeline only on a handful of participants at a time. </p>
+<div class="language-py highlight"><pre><span></span><code><span id="__span-10-1"><span class="k">if</span> <span class="n">manual_correct</span><span class="p">:</span>
+</span><span id="__span-10-2">    <span class="n">participants_manual</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;sub-201&#39;</span><span class="p">]</span> <span class="c1"># change with desired participant ID</span>
+</span><span id="__span-10-3">
+</span><span id="__span-10-4">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Manual correction of PPG peaks will be presented for participant: </span><span class="si">{</span><span class="n">participants_manual</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</span></code></pre></div>
+<details class="bug">
+<summary>Bug: recurrent <code>TypeError</code> using Systole's <code>Editor</code></summary>
+<p>Just ignore the <em>TypeError: Figure.set_tight_layout() missing 1 required positional argument: 'tight'</em> error that will be printed every manual correction or bad segment annotation you perform using Systole's <code>Editor</code>. </p>
+</details>
+<h3 id="5b-manual-ppg-peaks-correction-data-saving">5b. Manual PPG peaks correction: data saving<a class="headerlink" href="#5b-manual-ppg-peaks-correction-data-saving" title="Permanent link">#</a></h3>
+<p>Once done with manual correction in the UI, save the results by running the code block in this section. The corrected PPG peak locations and bad segment indices for the participant specified in <code>participants_manual</code> are saved to a JSON file (<code>_manual-corrected.json</code>) in the <code>/derivatives/ppg-preproc/sub-&lt;label&gt;/</code> folder for further processing and analysis. The manual correction process can be repeated for further participants by each time indicating a new participant ID and running the entire section again.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Make sure that you run the <code>editor.save()</code> section (below) only after completing your manual PPG peak correction for the given participant. This will save the output <code>_manual-corrected.json</code> file with the information about the new PPG peak locations and bad segments idx pairs. </p>
+<div class="language-py highlight"><pre><span></span><code><span id="__span-11-1"><span class="c1"># Execute only when manual peak correction is done</span>
+</span><span id="__span-11-2"><span class="k">if</span> <span class="n">manual_correct</span><span class="p">:</span>
+</span><span id="__span-11-3">    <span class="n">editor</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+</span></code></pre></div>
+</div>
+<details class="bug">
+<summary>Bug: Is your sampling frequency different from 1000 Hz? Incorrect <code>Editor</code> timescale</summary>
+<p><strong>Caution when using Systole’s <code>Editor</code> for manual correction with sampling rates other than 1000 Hz!</strong> Despite specifying the <code>sfreq</code> in the <code>Editor</code>’s arguments, the function appears to be using a default sampling frequency of 1000 Hz to calculate the time window of the interactive visualization. As a result, the <code>Editor</code> might display your ECG signal in an incorrect time scale, shorter or longer than its actual duration. Despite this bug in the visualization, the manually corrected R-peak and bad segment indices are saved correctly in the output <code>_systole-corrected.json</code> file. </p>
+<ul>
+<li>For example, if your <code>sfreq</code> is 500 Hz and your original ECG signal is 10 min long, the UI will plot the signal with a default sampling frequency of 1000 Hz (i.e. as if 1000 samples were included in 1 sec of recording). This squeezes the timescale of the ECG signal into half its length (i.e., 5 min) and plots equally incorrect RR interval durations for the instantaneous HR, e.g., each heart beat lasting 300 or 400 ms. </li>
+<li>A potential temporary solution could be to <strong>resample your data to 1000 Hz</strong>. </li>
+</ul>
+</details>
+<h2 id="6-data-output"><strong>6. Data output</strong><a class="headerlink" href="#6-data-output" title="Permanent link">#</a></h2>
+<p>This section exports the PPG preprocessing output files in BIDS-compliant format for each subject in <code>derivatives/ppg-preproc/sub-&lt;label&gt;/&lt;datatype&gt;/</code>.</p>
+<h3 id="6a-optional-export-raw-and-clean-ppg-data">6a. (Optional) Export raw and clean PPG data<a class="headerlink" href="#6a-optional-export-raw-and-clean-ppg-data" title="Permanent link">#</a></h3>
+<p>A custom function, <code>save_ppg_cleaned()</code>, saves the BIDS-compliant <strong><code>_ppg-cleaned.tsv.gz</code></strong> file with two columns: <strong><code>ppg_raw</code></strong> (the original PPG data) and <strong><code>ppg_cleaned</code></strong> (the cleaned PPG signal, created by the optional steps in <a href="https://martager.github.io/bbsig/ppg-preprocessing/#2-optional-ppg-normalization-filtering-clipping-artifact-correction">Sect. 2</a>). This ensures easy access for later stages of analysis and enhances reproducibility. </p>
+<p>If PPG cleaning was performed at the beginning (<code>ppg_normalize</code>, <code>ppg_filter</code> and/or <code>clip_artifacts_correct</code>), this section saves the <code>_ppg-cleaned.tsv.gz</code> file with two columns: the original PPG recording (<code>ppg_raw</code>) and the cleaned PPG signal with the applied cleaning options (<code>ppg_cleaned</code>). </p>
+<p>This is how the <code>_ppg-cleaned.tsv.gz</code> TSV file might look (after decompression): 
+<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1">ppg_raw        ppg_cleaned
+</span><span id="__span-12-2">-107070.39     0.021833
+</span><span id="__span-12-3">-106860.40     0.022734
+</span><span id="__span-12-4">-106670.40     0.023627
+</span><span id="__span-12-5">-106460.40     0.024509
+</span><span id="__span-12-6">-106330.41     0.025381
+</span></code></pre></div></p>
+<h3 id="6b-export-main-ppg-preprocessing-features">6b. Export main PPG preprocessing features<a class="headerlink" href="#6b-export-main-ppg-preprocessing-features" title="Permanent link">#</a></h3>
+<p>A custom function, <code>save_ppg_preproc()</code>, saves the <strong><code>_ppg-preproc.json</code> file</strong> containing the following information:</p>
+<ul>
+<li><strong><code>ppg_peaks</code></strong> contains the following data: <code>PPG_Peaks_Uncorr</code> for uncorrected PPG peak indices; <code>PPG_Peaks_AutoCorr</code> for auto-corrected PPG peak indices, if either NeuroKit2's or Systole's artifact correction were used; <code>PPG_Peaks_ManualCorr</code> for manually corrected PPG peak indices using Systole's <code>Editor</code>. </li>
+<li><strong><code>rr_s</code></strong> contains the RR interval time series (in seconds) created using Systole's <code>input_conversion(output_type='rr_s')</code>, based on the uncorrected, auto-corrected and/or manually corrected PPG systolic peak indices (if present). </li>
+<li><strong><code>bad_segments</code></strong> contains index pairs indicating the onsets and offsets of PPG signal segments marked as "bad" using Systole's <code>Editor</code>.</li>
+<li><strong><code>info</code></strong> contains metadata about the PPG peak detection procedure, including the methods chosen for peak detection and artifact correction, the indices of uncorrected artifacts and the number of extra/missed peaks automatedly corrected. </li>
+</ul>
+<p>This is the crucial final step of our BBBSIG PPG preprocessing pipeline. It stores all the features that have been calculated so far, including: PPG peak locations (uncorrected, automatedly corrected, and/or manually corrected if present); RR interval time series (based on uncorrected, automatedly corrected and/or manually corrected peaks if present); bad segments indices; metadata about the chosen PPG peak detection and correction methods. These are all saved as lists of values (e.g., indices for <code>ppg_peaks</code> or seconds for <code>rr_s</code>) under the corresponding keys. </p>
+<p>Below is an example of how different sections of the <code>_ppg-preproc.json</code> file could look:
+<div class="language-json highlight"><pre><span></span><code><span id="__span-13-1"><span class="p">{</span>
+</span><span id="__span-13-2"><span class="w">    </span><span class="nt">&quot;ppg_peaks&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-13-3"><span class="w">        </span><span class="nt">&quot;PPG_Peaks_Uncorr&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mi">741</span><span class="p">,</span><span class="w"> </span><span class="mi">1793</span><span class="p">,</span><span class="w"> </span><span class="mi">2820</span><span class="p">,</span><span class="w"> </span><span class="err">...</span><span class="p">],</span>
+</span><span id="__span-13-4"><span class="w">        </span><span class="nt">&quot;PPG_Peaks_AutoCorr&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mi">741</span><span class="p">,</span><span class="w"> </span><span class="mi">1793</span><span class="p">,</span><span class="w"> </span><span class="mi">2820</span><span class="p">,</span><span class="w"> </span><span class="err">...</span><span class="p">],</span>
+</span><span id="__span-13-5"><span class="w">        </span><span class="nt">&quot;PPG_Peaks_ManualCorr&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mi">741</span><span class="p">,</span><span class="w"> </span><span class="mi">1793</span><span class="p">,</span><span class="w"> </span><span class="mi">2820</span><span class="p">,</span><span class="w"> </span><span class="err">...</span><span class="p">]</span>
+</span><span id="__span-13-6"><span class="w">    </span><span class="p">},</span>
+</span><span id="__span-13-7"><span class="w">    </span><span class="nt">&quot;rr_s&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-13-8"><span class="w">        </span><span class="nt">&quot;RR_s_Uncorr&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mf">1.052</span><span class="p">,</span><span class="w"> </span><span class="mf">1.027</span><span class="p">,</span><span class="w"> </span><span class="mf">1.106</span><span class="p">,</span><span class="w"> </span><span class="err">...</span><span class="p">],</span>
+</span><span id="__span-13-9"><span class="w">        </span><span class="nt">&quot;RR_s_AutoCorr&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mf">1.052</span><span class="p">,</span><span class="w"> </span><span class="mf">1.027</span><span class="p">,</span><span class="w"> </span><span class="mf">1.106</span><span class="p">,</span><span class="w"> </span><span class="err">...</span><span class="p">],</span>
+</span><span id="__span-13-10"><span class="w">        </span><span class="nt">&quot;RR_s_ManualCorr&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mf">1.052</span><span class="p">,</span><span class="w"> </span><span class="mf">1.027</span><span class="p">,</span><span class="w"> </span><span class="mf">1.106</span><span class="p">,</span><span class="w"> </span><span class="err">...</span><span class="p">]</span>
+</span><span id="__span-13-11"><span class="w">    </span><span class="p">},</span>
+</span><span id="__span-13-12"><span class="w">    </span><span class="nt">&quot;bad_segments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mi">278792</span><span class="p">,</span><span class="w"> </span><span class="mi">284127</span><span class="p">,</span><span class="w"> </span><span class="mi">327740</span><span class="p">,</span><span class="w"> </span><span class="mi">331397</span><span class="p">,</span><span class="w"> </span><span class="mi">517534</span><span class="p">,</span><span class="w"> </span><span class="mi">522042</span><span class="p">],</span>
+</span><span id="__span-13-13"><span class="w">    </span><span class="nt">&quot;info&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-13-14"><span class="w">        </span><span class="nt">&quot;method_peaks&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;elgendi&quot;</span><span class="p">,</span>
+</span><span id="__span-13-15"><span class="w">        </span><span class="nt">&quot;peaks_correction_neurokit&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;True&quot;</span><span class="p">,</span>
+</span><span id="__span-13-16"><span class="w">        </span><span class="nt">&quot;peaks_correction_systole&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;True&quot;</span><span class="p">,</span>
+</span><span id="__span-13-17"><span class="w">        </span><span class="nt">&quot;ectopic_idx_uncorr&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mi">94</span><span class="p">,</span><span class="w"> </span><span class="mi">175</span><span class="p">,</span><span class="w"> </span><span class="err">...</span><span class="p">,</span><span class="w"> </span><span class="mi">886</span><span class="p">],</span>
+</span><span id="__span-13-18"><span class="w">        </span><span class="nt">&quot;long_idx_uncorr&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mi">174</span><span class="w"> </span><span class="p">],</span>
+</span><span id="__span-13-19"><span class="w">        </span><span class="nt">&quot;short_idx_uncorr&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mi">91</span><span class="p">,</span><span class="w"> </span><span class="mi">309</span><span class="p">],</span>
+</span><span id="__span-13-20"><span class="w">        </span><span class="nt">&quot;extra_idx_uncorr&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mi">90</span><span class="p">,</span><span class="w"> </span><span class="mi">157</span><span class="p">,</span><span class="w"> </span><span class="err">...</span><span class="p">,</span><span class="w"> </span><span class="mi">848</span><span class="p">],</span>
+</span><span id="__span-13-21"><span class="w">        </span><span class="nt">&quot;missed_idx_uncorr&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+</span><span id="__span-13-22"><span class="w">        </span><span class="nt">&quot;info_correction&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-13-23"><span class="w">            </span><span class="nt">&quot;extra&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-13-24"><span class="w">            </span><span class="nt">&quot;missed&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
+</span><span id="__span-13-25"><span class="w">        </span><span class="p">}</span>
+</span><span id="__span-13-26"><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-13-27"><span class="p">}</span>
+</span></code></pre></div></p>
+<h3 id="6c-optional-export-interpolated-hr-in-bpm">6c. (Optional) Export interpolated HR (in bpm)<a class="headerlink" href="#6c-optional-export-interpolated-hr-in-bpm" title="Permanent link">#</a></h3>
+<p>A custom function, <code>save_hr_interpol()</code>, saves the <strong>interpolated heart rate (HR) values in BPM from the RR interval time series</strong> with the selected correction type (i.e., <code>manualcorr</code> &gt; <code>autocorr</code> &gt; <code>uncorr</code>) to a new file ending in <code>_hr-bpm-{correction_type}.tsv.gz</code>.  Please note that interpolated HR values before the first RR interval and after the last RR interval will be filled with NaN values. </p>
+<details class="bug">
+<summary>Bug: Incorrect HR interpolation with Systole’s heart_rate() with sampling frequences other than 1000 Hz</summary>
+<p>We have identified a <strong>bug in Systole's <code>heart_rate()</code> function whenever the <code>sfreq</code> argument is set to any value other than the default 1000 Hz</strong>. The interpolated HR values in BPM are incorrectly scaled by the value of <code>sfreq</code>, leading to inaccurate results. For example, for an RR interval of 992 ms, which should correspond to 60.48 bpm, calling <code>heart_rate(sfreq=500)</code> returns an incorrectly interpolated HR of 30.24 bpm, exactly half the expected value. As a temporary fix, we keep the argument <code>sfreq</code> to its default (1000 Hz) when calling this function within the custom <code>save_hr_interpol()</code> block. This ensures that interpolated HR values remain correct regardless of the original ECG signal's sampling frequency. </p>
+<p>We are waiting for an official fix from the maintainers of Systole. You can track the progress or read more about this bug here: <a href="https://github.com/embodied-computation-group/systole/issues/75">opened issue on GitHub</a>.</p>
+</details>
+<p>This is what the <code>_hr-bpm-{correction_type}.tsv.gz</code> file might look (after decompression) - note that the values shown do not include the NaN values before the first RR interval (which lasted 1.052 s): 
+<div class="language-text highlight"><pre><span></span><code><span id="__span-14-1">        hr_bpm_manualcorr
+</span><span id="__span-14-2">1052          57.034221
+</span><span id="__span-14-3">1053          57.042750
+</span><span id="__span-14-4">1054          57.051261
+</span><span id="__span-14-5">1055          57.059753
+</span><span id="__span-14-6">1056          57.068228
+</span></code></pre></div></p>
+<h2 id="good-job-your-ppg-preprocessing-is-done"><strong>Good job, your PPG preprocessing is done! 🥳</strong><a class="headerlink" href="#good-job-your-ppg-preprocessing-is-done" title="Permanent link">#</a></h2>
+<p>If you enabled all optional steps, these are the files which will now be included in the <code>derivatives/ppg-preproc/sub-&lt;label&gt;/</code> directory:</p>
+<ul>
+<li><strong><code>_ppg-preproc.json</code></strong>: stores the main PPG preprocessing features, including PPG peak indices (uncorrected, auto-corrected, and manually corrected), RR time-series derived from these peak indices, and metadata about artifacts, bad segments and correction. </li>
+<li><strong><code>_ppg-cleaned.tsv.gz</code></strong>: if you enabled the parameter <code>ppg_filter</code> in <a href="https://martager.github.io/bbsig/ppg-preprocessing/#2-optional-ppg-normalization-filtering-clipping-artifact-correction">Sect. 2</a>, stores the raw and cleaned PPG signal. </li>
+<li><strong><code>_manual-corrected.json</code></strong>: if you performed manual PPG peak correction and saved its output, stores the Systole's <code>Editor</code> output with manually corrected PPG peaks and bad segment indices. See <a href="https://martager.github.io/bbsig/ppg-preprocessing/#5-manual-ppg-peaks-correction">Sect. 5</a></li>
+<li><strong><code>_hr-bpm-{correction_type}.tsv.gz</code></strong>: if you enabled the parameter <code>hr_interpol</code> in <a href="https://martager.github.io/bbsig/ppg-preprocessing/#6-data-output">Sect. 6</a>, stores the interpolated HR values in BPM. </li>
+</ul>
+<figure>
+<p><img alt="PPG output files" src="../assets/images/ppg_preproc_output.png" width="500" /></p>
+<figcaption></figcaption>
+</figure>
+<details class="note" open="open">
+<summary>What does the BIDS directory look like after running the ECG preprocessing pipeline?</summary>
+<p>Let's come back to the example BIDS directory from the beginning, where we wanted to preprocess the physio data for two given participants, <code>sub-201</code> and <code>sub-202</code>, with one session (<code>ses-01</code>) each and datatype <code>beh</code>. After running this PPG preprocessing pipeline, the BIDS structure should now include a <code>derivatives/ppg-preproc</code> folder with sub-folders for each participant, session (optional), and datatype. Within this last folder, the four main output files should be stored. </p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-15-1">└─ YourBIDSFolder/
+</span><span id="__span-15-2">    ├─ derivatives/ 
+</span><span id="__span-15-3">    │   └─ ppg-preproc/
+</span><span id="__span-15-4">    │       ├─ sub-201/
+</span><span id="__span-15-5">    │       │   └─ ses-01/
+</span><span id="__span-15-6">    │       │       └─ beh/
+</span><span id="__span-15-7">    │       │           ├─ `sub-201_ses-01_task-BBSIG_hr-bpm-manualcorr.tsv.gz`  # optional
+</span><span id="__span-15-8">    │       │           ├─ `sub-201_ses-01_task-BBSIG_manual-corrected.json`     # optional
+</span><span id="__span-15-9">    │       │           ├─ `sub-201_ses-01_task-BBSIG_ppg-cleaned.tsv.gz`        # optional       
+</span><span id="__span-15-10">    │       │           └─ `sub-201_ses-01_task-BBSIG_ppg-preproc.json`          # main output 
+</span><span id="__span-15-11">    │       ├─ sub-202/
+</span><span id="__span-15-12">    │       └─ ...
+</span><span id="__span-15-13">    ├─ sub-201/
+</span><span id="__span-15-14">    │   └─ ses-01/
+</span><span id="__span-15-15">    │       └─ beh/
+</span><span id="__span-15-16">    │           ├─ `sub-201_ses-01_task-BBSIG_physio.json`
+</span><span id="__span-15-17">    │           └─ `sub-201_ses-01_task-BBSIG_physio.tsv.gz`
+</span><span id="__span-15-18">    ├─ sub-202/
+</span><span id="__span-15-19">    └─ ... 
+</span></code></pre></div>
+</details>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://github.com/martager/bbsig" target="_blank" rel="noopener" title="BBSIG on GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://bsky.app/profile/mbe-lab.bsky.social" target="_blank" rel="noopener" title="mbe-lab on Bluesky" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M64 32C28.7 32 0 60.7 0 96v320c0 35.3 28.7 64 64 64h320c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64zm160 215.4c14.5-30 54-85.8 90.7-113.3 26.5-19.9 69.3-35.2 69.3 13.7 0 9.8-5.6 82.1-8.9 93.8-11.4 40.8-53 51.2-90 44.9 64.7 11 81.2 47.5 45.6 84-67.5 69.3-97-17.4-104.6-39.6l-.3-.9c-.9-2.6-1.4-4.1-1.8-4.1s-.9 1.5-1.8 4.1l-.3.9c-7.6 22.2-37.1 108.8-104.6 39.6-35.5-36.5-19.1-73 45.6-84-37 6.3-78.6-4.1-90-44.9-3.3-11.7-8.9-84-8.9-93.8 0-48.9 42.9-33.5 69.3-13.7 36.7 27.5 76.2 83.4 90.7 113.3"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://bsky.app/profile/martager.bsky.social" target="_blank" rel="noopener" title="martager on Bluesky" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M64 32C28.7 32 0 60.7 0 96v320c0 35.3 28.7 64 64 64h320c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64zm160 215.4c14.5-30 54-85.8 90.7-113.3 26.5-19.9 69.3-35.2 69.3 13.7 0 9.8-5.6 82.1-8.9 93.8-11.4 40.8-53 51.2-90 44.9 64.7 11 81.2 47.5 45.6 84-67.5 69.3-97-17.4-104.6-39.6l-.3-.9c-.9-2.6-1.4-4.1-1.8-4.1s-.9 1.5-1.8 4.1l-.3.9c-7.6 22.2-37.1 108.8-104.6 39.6-35.5-36.5-19.1-73 45.6-84-37 6.3-78.6-4.1-90-44.9-3.3-11.7-8.9-84-8.9-93.8 0-48.9 42.9-33.5 69.3-13.7 36.7 27.5 76.2 83.4 90.7 113.3"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.top", "search.highlight", "search.suggest", "toc.follow", "content.code.copy", "content.code.select"], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c8b220af.min.js"></script>
+      
+    
+  </body>
+</html>

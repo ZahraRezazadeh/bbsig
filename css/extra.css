@@ -1,0 +1,15 @@
+:root  > * {
+    --md-primary-fg-color: #88AAA5;
+    --md-primary-fg-color--light: #88AAA5;
+    --md-primary-fg-color--dark:  #88AAA5;
+    --md-accent-fg-color: #E47C74;
+    --md-accent-fg-color--light: #E47C74;
+    --md-accent-fg-color--dark: #E47C74;
+  }
+
+:root > * {
+    --md-footer-fg-color: #ffffff;
+    --md-footer-fg-color--light: #ffffff;
+    --md-footer-bg-color: #88AAA5;
+    --md-footer-bg-color--dark: #88AAA5;
+  }
