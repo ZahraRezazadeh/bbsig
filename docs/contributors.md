@@ -2,7 +2,7 @@
 
 !!! tip 
 
-    Interested in joining BBSIG and/or contributing to our pipelines? Open an issue on GitHub, create a pull request or send us an email at *[FUNCTIONAL EMAIL TO BE DEFINED] *
+    Interested in joining BBSIG and/or contributing to our pipelines? Open an issue on GitHub, create a pull request or send us an email at **bbsig-contact [at] cbs.mpg.de**. 
 
 ## **Current contributors**
 

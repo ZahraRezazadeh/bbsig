@@ -1,5 +1,10 @@
 # **Frequently Asked Questions (FAQs)**
 
+!!! tip 
+
+    Do you have other questions regarding our BBSIG pipelines? Open an issue on GitHub, or send us an email at **bbsig-contact [at] cbs.mpg.de**. 
+
+
 ## **Setup**
 
 ### Jupyter Notebooks
