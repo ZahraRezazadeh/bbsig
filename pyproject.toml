@@ -1,0 +1,40 @@
+[project]
+name = "BBSIG"
+version = "0.0.1"
+updated = "2025-04-14"
+description = "Brain-Body Analysis Special Interest Group (BBSIG): open-access, reproducible pipelines for peripheral physiological signal analysis"
+readme = "README.md"
+requires-python = ">=3.11"  
+license = { file = "LICENSE" }
+keywords = [
+    "peripheral-physiology",
+    "brain-body-interactions",
+    "interoception",
+    "ecg",
+    "respiration",
+    "ppg",
+    "hrv"
+]
+authors = [
+    { name = "Marta Gerosa" }, 
+    { name = "Niket Agrawal" }, 
+    { name = "Anthony Buck Ciston" }, 
+    { name = "Anna Fischer" }, 
+    { name = "Antonin Fourcade" }, 
+    { name = "Abhay Koushik" }, 
+    { name = "Mia Neubauer" }, 
+    { name = "Agata Patyczek" }, 
+    { name = "Aleksandra Piejka" }, 
+    { name = "Elias Reinwarth" }, 
+    { name = "Lucy Roellecke" }, 
+    { name = "Yu Hei Shum" }, 
+    { name = "Sam Verschooren" }, 
+    { name = "Michael Gaebler" }
+    ]
+maintainers = [{ name = "Marta Gerosa", email = "" }]
+
+[project.urls]
+homepage = "https://martager.github.io/bbsig/"
+documentation = "https://martager.github.io/bbsig/"
+repository = "https://github.com/martager/bbsig"
+changelog = "https://github.com/martager/bbsig/blob/main/CHANGELOG.md"

@@ -1,0 +1,132 @@
+##### Settings for the MkDocs documentation site generator #####
+site_name: Brain-Body Analysis Special Interest Group (BBSIG)  # name of the site
+site_description: Brain-Body Analysis Special Interest Group (BBSIG) - reproducible, open-access pipelines for peripheral physiology analysis
+site_url: https://martager.github.io/bbsig    # base URL of docs site
+repo_url: https://github.com/martager/bbsig   # URL of GitHub repo where source code for documentation site is hosted
+repo_name: martager/bbsig   # name of the GitHub repo where source code for documentation site is hosted
+site_dir: "site"  # sets the directory where the site will be built.
+#watch: [mkdocs.yml, README.md, src/xai4mri]
+
+
+##### Sets the validation options for the site #####
+validation:
+    omitted_files: warn
+    absolute_links: warn
+    unrecognized_links: warn
+
+
+###### Sets the navigation structure of the site #####
+nav:  # Files are relative to docs/
+- Home:
+  - Overview : index.md
+- Getting started:
+  - Quick overview: overview.md
+  - Create the virtual environment: setup-bbsig-env.md
+  - Organize your BIDS folders: bids-structure.md
+  - FAQs: faqs.md
+- Pipelines:
+  - ECG preprocessing: ecg-preprocessing.md
+  - PPG preprocessing: ppg-preprocessing.md
+  - HRV analysis: hrv-analysis.md
+- About us:
+  - Contributors: contributors.md
+  - Cite us: cite-us.md
+  - License: license.md
+  - Acknowledgments: acknowledgments.md
+
+
+##### Sets the theme of the site #####
+theme:
+  name: material  # readthedocs
+  logo: bbsig_logo.png # project logo (use: *.svg or *.png)
+  favicon: assets/images/favicon.ico  # website / tab icon
+  palette: 
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      accent: custom
+      toggle: 
+        icon: material/weather-sunny
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-night
+        name: Switch to light mode
+  font:
+    text: Roboto
+    code: Roboto Mono
+  features:
+    - navigation.tabs # displays tabs for navigating between pages or sections
+    - navigation.tabs.sticky  # makes the navigation tabs sticky or fixed to the top of the page
+    - navigation.top  # provides a button or link to scroll to the top of the page
+    - search.highlight  # highlights search results on the page
+    - search.suggest  # provides suggestions or autocomplete for search queries
+    - toc.follow  # automatically scrolls the table of contents to the current section or heading
+    - content.code.copy
+    - content.code.select
+  icon:
+    repo: fontawesome/brands/github # GitHub icon for associated repo
+
+
+##### Sets extra elements of the site #####
+extra:
+  social:
+    - icon: fontawesome/brands/github  # adds GitHub icon to footer linking to main repo
+      link: https://github.com/martager/bbsig
+      name: BBSIG on GitHub
+    - icon: fontawesome/brands/square-bluesky  # adds Bluesky icon to footer linking to MBE lab profile
+      link: https://bsky.app/profile/mbe-lab.bsky.social
+      name: mbe-lab on Bluesky
+    - icon: fontawesome/brands/square-bluesky  # adds Bluesky icon to footer linking to Marta's profile
+      link: https://bsky.app/profile/martager.bsky.social
+      name: martager on Bluesky
+
+
+##### Sets the extra CSS files to include in the site #####
+# (addition to default styles provided by the MkDocs theme)
+extra_css:
+  - css/extra.css # custom color palette
+
+
+##### Sets the plugins to use in the site #####
+plugins:
+- search
+
+
+##### Sets the Markdown extensions to use in the site #####
+markdown_extensions:
+  - admonition # adds admonition blocks, which are like callout boxes that highlight important information
+  - pymdownx.details # adds support for details/summary blocks, which are collapsible sections that can be toggled opened/closed
+  - attr_list
+  - md_in_html
+  - pymdownx.blocks.caption
+  - tables
+  - footnotes
+  - pymdownx.highlight:
+      anchor_linenums: false
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.emoji:  # Adds support for emojis in Markdown, using the Twemoji library and converting them to SVGs.
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - toc:  # adds a table of contents to Markdown documents, with permalinks to each section
+      permalink: '#'
+  - pymdownx.critic
+  - pymdownx.caret
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.tilde

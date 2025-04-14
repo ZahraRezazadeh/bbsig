@@ -1,0 +1,62 @@
+cff-version: "1.2.0"
+title: "Brain-Body Analysis Special Interest Group (BBSIG)"
+version: 0.0.1
+license: "MIT"
+type: "software"
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: Gerosa
+    given-names: Marta
+    orcid: https://orcid.org/0009-0003-6184-8072
+  - family-names: Agrawal
+    given-names: Niket
+    orcid: https://orcid.org/0000-0001-8613-1084 
+  - family-names: Ciston
+    given-names: Anthony Buck
+    orcid: https://orcid.org/0009-0007-5335-5429
+  - family-names: Fischer
+    given-names: Anna
+  - family-names: Fourcade
+    given-names: Antonin
+    orcid: https://orcid.org/0000-0002-3698-6671
+  - family-names: Koushik
+    given-names: Abhay
+    orcid: https://orcid.org/0000-0002-7181-3215
+  - family-names: Neubauer
+    given-names: Mia
+  - family-names: Patyczek
+    given-names: Agata
+  - family-names: Piejka
+    given-names: Aleksandra
+    orcid: https://orcid.org/0000-0002-6122-7845
+  - family-names: Reinwarth
+    given-names: Elias
+  - family-names: Roellecke
+    given-names: Lucy
+    orcid: https://orcid.org/0009-0007-1442-5228
+  - family-names: Shum
+    given-names: Yu Hei
+    orcid: https://orcid.org/0000-0002-2257-6145
+  - family-names: Verschooren
+    given-names: Sam
+    orcid: https://orcid.org/0000-0002-6391-9861
+  - family-names: Gaebler
+    given-names: Michael
+    orcid: https://orcid.org/0000-0002-4442-5778
+date-released: 2025-04-14
+identifiers:
+  - type: url
+    value: https://github.com/martager/bbsig
+    description: URL to the GitHub repository for `BBSIG`
+  - type: url
+    value: https://martager.github.io/bbsig
+    description: URL to the documentation for `BBSIG`
+repository-code: https://github.com/martager/bbsig
+keywords:
+  - peripheral-physiology
+  - brain-body-interactions
+  - interoception
+  - ecg
+  - respiration
+  - ppg
+  - hrv
