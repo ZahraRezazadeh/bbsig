@@ -45,6 +45,9 @@ authors:
     orcid: https://orcid.org/0000-0002-4442-5778
 date-released: 2025-04-14
 identifiers:
+  - type: doi
+    value: 10.5281/zenodo.15212797 
+    description: Zenodo DOI linking to the collection of archived snapshots of all versions of BBSIG
   - type: url
     value: https://github.com/martager/bbsig
     description: URL to the GitHub repository for `BBSIG`
